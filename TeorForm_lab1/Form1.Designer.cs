@@ -56,8 +56,8 @@
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вызовСправкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBoxIn = new System.Windows.Forms.ListBox();
-            this.listBoxOut = new System.Windows.Forms.ListBox();
+            this.richTextBoxIn = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxOut = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,6 +111,7 @@
             this.сохранитьКакToolStripMenuItem.Name = "сохранитьКакToolStripMenuItem";
             this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.сохранитьКакToolStripMenuItem.Text = "Сохранить как";
+            this.сохранитьКакToolStripMenuItem.Click += new System.EventHandler(this.сохранитьКакToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
@@ -264,29 +265,29 @@
             this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.оПрограммеToolStripMenuItem.Text = "О программе";
             // 
-            // listBoxIn
+            // richTextBoxIn
             // 
-            this.listBoxIn.FormattingEnabled = true;
-            this.listBoxIn.Location = new System.Drawing.Point(12, 27);
-            this.listBoxIn.Name = "listBoxIn";
-            this.listBoxIn.Size = new System.Drawing.Size(854, 134);
-            this.listBoxIn.TabIndex = 3;
+            this.richTextBoxIn.Location = new System.Drawing.Point(12, 27);
+            this.richTextBoxIn.Name = "richTextBoxIn";
+            this.richTextBoxIn.Size = new System.Drawing.Size(854, 134);
+            this.richTextBoxIn.TabIndex = 5;
+            this.richTextBoxIn.Text = "";
             // 
-            // listBoxOut
+            // richTextBoxOut
             // 
-            this.listBoxOut.FormattingEnabled = true;
-            this.listBoxOut.Location = new System.Drawing.Point(12, 167);
-            this.listBoxOut.Name = "listBoxOut";
-            this.listBoxOut.Size = new System.Drawing.Size(854, 134);
-            this.listBoxOut.TabIndex = 4;
+            this.richTextBoxOut.Location = new System.Drawing.Point(12, 167);
+            this.richTextBoxOut.Name = "richTextBoxOut";
+            this.richTextBoxOut.Size = new System.Drawing.Size(854, 134);
+            this.richTextBoxOut.TabIndex = 6;
+            this.richTextBoxOut.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(878, 308);
-            this.Controls.Add(this.listBoxOut);
-            this.Controls.Add(this.listBoxIn);
+            this.Controls.Add(this.richTextBoxOut);
+            this.Controls.Add(this.richTextBoxIn);
             this.Controls.Add(this.menuStrip1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -327,8 +328,8 @@
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem вызовСправкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBoxIn;
-        private System.Windows.Forms.ListBox listBoxOut;
+        private System.Windows.Forms.RichTextBox richTextBoxIn;
+        private System.Windows.Forms.RichTextBox richTextBoxOut;
     }
 }
 
