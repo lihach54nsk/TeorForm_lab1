@@ -18,6 +18,8 @@ namespace TeorForm_lab1
             InitializeComponent();
         }
 
+        string currentFile = "";
+
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -30,6 +32,11 @@ namespace TeorForm_lab1
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            currentFile = SaveAs();
+        }
+
+        string SaveAs()
+        {
             StreamWriter SW;
             SaveFileDialog SFD = new SaveFileDialog();
             SFD.FileName = "MyTXT";
@@ -40,7 +47,8 @@ namespace TeorForm_lab1
                 SW = new StreamWriter(SFD.FileName);
                 SW.Write(richTextBoxOut.Text.ToString());
                 SW.Close();
-            }
+            }            
+            return SFD.FileName;
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -70,7 +78,13 @@ namespace TeorForm_lab1
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (currentFile == "") currentFile = SaveAs();
+            else
+            {
+                StreamWriter file = new StreamWriter(currentFile);
+                file.Write(richTextBoxOut.Text.ToString());
+                file.Close();
+            }
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
