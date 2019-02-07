@@ -42,5 +42,36 @@ namespace TeorForm_lab1
                 SW.Close();
             }
         }
+
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveForm saveForm = new SaveForm();
+            DialogResult dialogResult = saveForm.ShowDialog();
+            //saveForm.Hide();
+            if (dialogResult == DialogResult.Yes)
+            {
+                StreamWriter SW;
+                SaveFileDialog SFD = new SaveFileDialog();
+                SFD.FileName = "MyTXT";
+                SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
+
+                if (SFD.ShowDialog() == DialogResult.OK)
+                {
+                    SW = new StreamWriter(SFD.FileName);
+                    SW.Write(richTextBoxOut.Text.ToString());
+                    SW.Close();
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                File.Create(@"C:\Users\Геральт из Ривии\Desktop\NewTXT.txt");  
+            }
+            else return;
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
