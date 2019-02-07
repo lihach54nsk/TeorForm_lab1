@@ -126,5 +126,15 @@ namespace TeorForm_lab1
         {
             richTextBoxIn.SelectAll();
         }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Эта программа создана на лабе!");
+        }
+
+        private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
