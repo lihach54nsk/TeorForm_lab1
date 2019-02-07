@@ -91,5 +91,40 @@ namespace TeorForm_lab1
         {
             Application.Exit();
         }
+
+        private void отменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void копироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void вставитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
