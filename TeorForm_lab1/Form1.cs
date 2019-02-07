@@ -47,7 +47,6 @@ namespace TeorForm_lab1
         {
             SaveForm saveForm = new SaveForm();
             DialogResult dialogResult = saveForm.ShowDialog();
-            //saveForm.Hide();
             if (dialogResult == DialogResult.Yes)
             {
                 StreamWriter SW;
@@ -72,6 +71,11 @@ namespace TeorForm_lab1
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
