@@ -47,7 +47,7 @@ namespace TeorForm_lab1
                 SW = new StreamWriter(SFD.FileName);
                 SW.Write(richTextBoxOut.Text.ToString());
                 SW.Close();
-            }            
+            }
             return SFD.FileName;
         }
 
@@ -71,7 +71,7 @@ namespace TeorForm_lab1
             }
             else if (dialogResult == DialogResult.No)
             {
-                File.Create(@"C:\Users\Геральт из Ривии\Desktop\NewTXT.txt");  
+                File.Create(@"C:\Users\Геральт из Ривии\Desktop\NewTXT.txt");
             }
             else return;
         }
@@ -94,27 +94,27 @@ namespace TeorForm_lab1
 
         private void отменитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            richTextBoxIn.Undo();
         }
 
         private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            richTextBoxIn.Redo();
         }
 
         private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            richTextBoxIn.Cut();
         }
 
         private void копироватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            richTextBoxIn.Copy();
         }
 
         private void вставитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            richTextBoxIn.Paste();
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -124,7 +124,7 @@ namespace TeorForm_lab1
 
         private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            richTextBoxIn.SelectAll();
         }
     }
 }
