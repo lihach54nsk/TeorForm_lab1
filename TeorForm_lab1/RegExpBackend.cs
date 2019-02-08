@@ -11,7 +11,7 @@ namespace TeorForm_lab1
     {
         private const string emailRegexString = @"(?<=(\s|^))\w[a-z0-9\._\-]*@[a-z0-9\._\-]+(?=(\s|$))";
 
-        private static readonly Regex emailRegex = 
+        private static readonly Regex emailRegex =
             new Regex(emailRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public static MatchCollection FindAllEmails(string input)

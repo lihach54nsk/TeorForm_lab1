@@ -23,12 +23,12 @@ namespace TeorForm_lab1
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
-        }
+        } // muda
 
         private void файлToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-        }
+        } // muda
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -120,7 +120,7 @@ namespace TeorForm_lab1
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-        }
+        } // muda
 
         private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -135,6 +135,12 @@ namespace TeorForm_lab1
         private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMailForm eMailForm = new EMailForm();
+            eMailForm.Show();
         }
     }
 }
