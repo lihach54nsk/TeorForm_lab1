@@ -51,7 +51,18 @@ namespace TeorForm_lab1
             return SFD.FileName;
         }
 
-        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        void Save()
+        {
+            if (currentFile == "") currentFile = SaveAs();
+            else
+            {
+                StreamWriter file = new StreamWriter(currentFile);
+                file.Write(richTextBoxOut.Text.ToString());
+                file.Close();
+            }
+        }
+
+        void Create()
         {
             SaveForm saveForm = new SaveForm();
             DialogResult dialogResult = saveForm.ShowDialog();
@@ -76,15 +87,14 @@ namespace TeorForm_lab1
             else return;
         }
 
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Create();
+        }
+
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentFile == "") currentFile = SaveAs();
-            else
-            {
-                StreamWriter file = new StreamWriter(currentFile);
-                file.Write(richTextBoxOut.Text.ToString());
-                file.Close();
-            }
+            Save();
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
