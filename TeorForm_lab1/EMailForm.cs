@@ -19,6 +19,7 @@ namespace TeorForm_lab1
 
         private void FindEMailButton_Click(object sender, EventArgs e)
         {
+            richTextBoxEMailOut.Clear();
             var result = RegExpBackend.FindAllEmails(richTextBoxEMailIn.Text.ToString());
             foreach (var a in result) richTextBoxEMailOut.AppendText(a + " ");
         }
