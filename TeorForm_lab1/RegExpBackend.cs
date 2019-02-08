@@ -9,13 +9,12 @@ namespace TeorForm_lab1
 {
     public static class RegExpBackend
     {
-        public static MatchCollection FindAllEmails(string input)
-        {
-            var except = @"(?<=(\s|^))\w[a-z0-9\._\-]*@[a-z0-9\._\-]+(?=(\s|$))";
-            var reg = new Regex(except, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            var result = reg.Matches(input);
+        private const string emailRegexString = @"(?<=(\s|^))\w[a-z0-9\._\-]*@[a-z0-9\._\-]+(?=(\s|$))";
 
-            return result;
-        }
+        private static readonly Regex emailRegex = 
+            new Regex(emailRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        public static MatchCollection FindAllEmails(string input)
+            => emailRegex.Matches(input);
     }
 }
