@@ -23,12 +23,12 @@ namespace TeorForm_lab1
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
-        }
+        } // muda
 
         private void файлToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-        }
+        } // muda
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -51,7 +51,18 @@ namespace TeorForm_lab1
             return SFD.FileName;
         }
 
-        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        void Save()
+        {
+            if (currentFile == "") currentFile = SaveAs();
+            else
+            {
+                StreamWriter file = new StreamWriter(currentFile);
+                file.Write(richTextBoxOut.Text.ToString());
+                file.Close();
+            }
+        }
+
+        void Create()
         {
             SaveForm saveForm = new SaveForm();
             DialogResult dialogResult = saveForm.ShowDialog();
@@ -76,15 +87,14 @@ namespace TeorForm_lab1
             else return;
         }
 
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Create();
+        }
+
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentFile == "") currentFile = SaveAs();
-            else
-            {
-                StreamWriter file = new StreamWriter(currentFile);
-                file.Write(richTextBoxOut.Text.ToString());
-                file.Close();
-            }
+            Save();
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
@@ -120,7 +130,7 @@ namespace TeorForm_lab1
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-        }
+        } // muda
 
         private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -135,6 +145,12 @@ namespace TeorForm_lab1
         private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMailForm eMailForm = new EMailForm();
+            eMailForm.Show();
         }
     }
 }

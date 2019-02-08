@@ -57,6 +57,7 @@
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.richTextBoxIn = new System.Windows.Forms.RichTextBox();
             this.richTextBoxOut = new System.Windows.Forms.RichTextBox();
+            this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -252,6 +253,8 @@
             // 
             // пускToolStripMenuItem
             // 
+            this.пускToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.emailToolStripMenuItem});
             this.пускToolStripMenuItem.Name = "пускToolStripMenuItem";
             this.пускToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.пускToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
@@ -297,6 +300,13 @@
             this.richTextBoxOut.Size = new System.Drawing.Size(854, 134);
             this.richTextBoxOut.TabIndex = 6;
             this.richTextBoxOut.Text = "";
+            // 
+            // emailToolStripMenuItem
+            // 
+            this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
+            this.emailToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.emailToolStripMenuItem.Text = "E-mail";
+            this.emailToolStripMenuItem.Click += new System.EventHandler(this.emailToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -346,6 +356,7 @@
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.RichTextBox richTextBoxIn;
         private System.Windows.Forms.RichTextBox richTextBoxOut;
+        private System.Windows.Forms.ToolStripMenuItem emailToolStripMenuItem;
     }
 }
 
