@@ -9,7 +9,7 @@ namespace TeorForm_lab1
 {
     public static class RegExpBackend
     {
-        private const string emailRegexString = @"(?<=(\s|^))\w[a-z0-9\._\-]*@[a-z0-9\._\-]+(?=(\s|$))";
+        private const string emailRegexString = @"(?<=(\s|^))\w[a-z0-9\._\-]*@[a-z0-9\._\-]*[a-z0-9](?=(\s|$))";
 
         private static readonly Regex emailRegex =
             new Regex(emailRegexString, RegexOptions.Compiled | RegexOptions.IgnoreCase);
