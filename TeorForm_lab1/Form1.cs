@@ -83,6 +83,8 @@ namespace TeorForm_lab1
         void Open()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
+
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
             else
             {
