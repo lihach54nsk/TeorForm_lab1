@@ -37,7 +37,6 @@ namespace TeorForm_lab1
 
         string SaveAs()
         {
-            //StreamWriter SW;
             SaveFileDialog SFD = new SaveFileDialog();
             SFD.FileName = "MyTXT";
             SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
@@ -46,9 +45,6 @@ namespace TeorForm_lab1
             {
                 string file = SFD.FileName;
                 File.WriteAllText(file, richTextBoxIn.Text.ToString());
-                //SW = new StreamWriter(SFD.FileName);
-                //SW.Write(richTextBoxOut.Text.ToString());
-                //SW.Close();
             }
             return SFD.FileName;
         }
@@ -56,13 +52,7 @@ namespace TeorForm_lab1
         void Save()
         {
             if (currentFile == "") currentFile = SaveAs();
-            else
-            {
-                File.WriteAllText(currentFile, richTextBoxIn.Text.ToString());
-                //StreamWriter file = new StreamWriter(currentFile);
-                //file.Write(richTextBoxOut.Text.ToString());
-                //file.Close();
-            }
+            else File.WriteAllText(currentFile, richTextBoxIn.Text.ToString());
         }
 
         void Create()
@@ -97,7 +87,6 @@ namespace TeorForm_lab1
             else
             {
                 string file = openFileDialog.FileName;
-                //File.Open(file, FileMode.Open,FileAccess.ReadWrite);
                 string txt = File.ReadAllText(file);
                 richTextBoxIn.Text = txt;
                 currentFile = file;
