@@ -37,16 +37,18 @@ namespace TeorForm_lab1
 
         string SaveAs()
         {
-            StreamWriter SW;
+            //StreamWriter SW;
             SaveFileDialog SFD = new SaveFileDialog();
             SFD.FileName = "MyTXT";
             SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
 
             if (SFD.ShowDialog() == DialogResult.OK)
             {
-                SW = new StreamWriter(SFD.FileName);
-                SW.Write(richTextBoxOut.Text.ToString());
-                SW.Close();
+                string file = SFD.FileName;
+                File.WriteAllText(file, richTextBoxIn.Text.ToString());
+                //SW = new StreamWriter(SFD.FileName);
+                //SW.Write(richTextBoxOut.Text.ToString());
+                //SW.Close();
             }
             return SFD.FileName;
         }
@@ -56,9 +58,10 @@ namespace TeorForm_lab1
             if (currentFile == "") currentFile = SaveAs();
             else
             {
-                StreamWriter file = new StreamWriter(currentFile);
-                file.Write(richTextBoxOut.Text.ToString());
-                file.Close();
+                File.WriteAllText(currentFile, richTextBoxIn.Text.ToString());
+                //StreamWriter file = new StreamWriter(currentFile);
+                //file.Write(richTextBoxOut.Text.ToString());
+                //file.Close();
             }
         }
 
@@ -85,6 +88,20 @@ namespace TeorForm_lab1
                 File.Create(@"C:\Users\Геральт из Ривии\Desktop\NewTXT.txt");
             }
             else return;
+        }
+
+        void Open()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
+            else
+            {
+                string file = openFileDialog.FileName;
+                //File.Open(file, FileMode.Open,FileAccess.ReadWrite);
+                string txt = File.ReadAllText(file);
+                richTextBoxIn.Text = txt;
+                currentFile = file;
+            }
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,13 +161,18 @@ namespace TeorForm_lab1
 
         private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Help.ShowHelp(this, "help.chm");
         }
 
         private void emailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EMailForm eMailForm = new EMailForm();
             eMailForm.Show();
+        }
+
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Open();
         }
     }
 }
