@@ -100,10 +100,14 @@ namespace TeorForm_lab1
             Create();
         }
 
+        private void CreateButton_Click(object sender, EventArgs e) => создатьToolStripMenuItem_Click(sender, e);
+
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Save();
         }
+
+        private void SaveButton_Click(object sender, EventArgs e) => сохранитьToolStripMenuItem_Click(sender, e);
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -115,30 +119,35 @@ namespace TeorForm_lab1
             richTextBoxIn.Undo();
         }
 
+        private void UndoButton_Click(object sender, EventArgs e) => отменитьToolStripMenuItem_Click(sender, e);
+
         private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBoxIn.Redo();
         }
+
+        private void RedoButton_Click(object sender, EventArgs e) => повторитьToolStripMenuItem_Click(sender, e);
 
         private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBoxIn.Cut();
         }
 
+        private void CutButton_Click(object sender, EventArgs e) => вырезатьToolStripMenuItem_Click(sender, e);
+
         private void копироватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBoxIn.Copy();
         }
+
+        private void CopyButton_Click(object sender, EventArgs e) => копироватьToolStripMenuItem_Click(sender, e);
 
         private void вставитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBoxIn.Paste();
         }
 
-        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        } // muda
+        private void PasteButton_Click(object sender, EventArgs e) => вставитьToolStripMenuItem_Click(sender, e);
 
         private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -164,6 +173,13 @@ namespace TeorForm_lab1
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Open();
+        }
+
+        private void OpenButton_Click(object sender, EventArgs e) => открытьToolStripMenuItem_Click(sender, e);
+
+        private void очиститьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBoxIn.Clear();
         }
     }
 }
