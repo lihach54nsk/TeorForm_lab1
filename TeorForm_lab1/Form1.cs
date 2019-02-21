@@ -38,15 +38,16 @@ namespace TeorForm_lab1
         string SaveAs()
         {
             SaveFileDialog SFD = new SaveFileDialog();
-            SFD.FileName = "MyTXT";
+            SFD.FileName = "";
             SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
 
             if (SFD.ShowDialog() == DialogResult.OK)
             {
                 string file = SFD.FileName;
                 File.WriteAllText(file, richTextBoxIn.Text.ToString());
+                return SFD.FileName;
             }
-            return SFD.FileName;
+            else return currentFile;
         }
 
         void Save()
@@ -61,30 +62,33 @@ namespace TeorForm_lab1
             DialogResult dialogResult = saveForm.ShowDialog();
             if (dialogResult == DialogResult.Yes)
             {
-                StreamWriter SW;
-                SaveFileDialog SFD = new SaveFileDialog();
-                SFD.FileName = "MyTXT";
-                SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
-
-                if (SFD.ShowDialog() == DialogResult.OK)
+                if (currentFile == "")
                 {
-                    SW = new StreamWriter(SFD.FileName);
-                    SW.Write(richTextBoxOut.Text.ToString());
-                    SW.Close();
+                    StreamWriter SW;
+                    SaveFileDialog SFD = new SaveFileDialog();
+                    SFD.FileName = "";
+                    SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
+
+                    if (SFD.ShowDialog() == DialogResult.OK)
+                    {
+                        SW = new StreamWriter(SFD.FileName);
+                        SW.Write(richTextBoxIn.Text.ToString());
+                        SW.Close();
+                        richTextBoxIn.Clear();
+                    }
+                    currentFile = "";
+                }
+                else
+                {
+                    Save();
+                    currentFile = "";
+                    richTextBoxIn.Clear();
                 }
             }
             else if (dialogResult == DialogResult.No)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.FileName = "MyTXT";
-                saveFileDialog.Filter = "TXT (*.txt)|*.txt";
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    var path = saveFileDialog.FileName;
-                    var FS = File.Create(path);
-                    currentFile = path;
-                    FS.Close();
-                }
+                richTextBoxIn.Clear();
+                currentFile = "";
             }
             else return;
         }
@@ -97,6 +101,27 @@ namespace TeorForm_lab1
             if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
             else
             {
+                SaveForm saveForm = new SaveForm();
+                DialogResult dialogResult = saveForm.ShowDialog();
+                if (dialogResult == DialogResult.Yes)
+                {
+                    if (currentFile == "")
+                    {
+                        StreamWriter SW;
+                        SaveFileDialog SFD = new SaveFileDialog();
+                        SFD.FileName = "";
+                        SFD.Filter = "TXT (*.txt)|*.txt|RTF (*.rtf)|*.rtf";
+
+                        if (SFD.ShowDialog() == DialogResult.OK)
+                        {
+                            SW = new StreamWriter(SFD.FileName);
+                            SW.Write(richTextBoxIn.Text.ToString());
+                            SW.Close();
+                        }
+                        else return;
+                    }
+                    else Save();
+                }
                 string file = openFileDialog.FileName;
                 string txt = File.ReadAllText(file);
                 richTextBoxIn.Text = txt;
