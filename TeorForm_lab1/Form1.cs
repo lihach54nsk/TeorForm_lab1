@@ -75,7 +75,16 @@ namespace TeorForm_lab1
             }
             else if (dialogResult == DialogResult.No)
             {
-                File.Create(@"C:\Users\Геральт из Ривии\Desktop\NewTXT.txt");
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.FileName = "MyTXT";
+                saveFileDialog.Filter = "TXT (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var path = saveFileDialog.FileName;
+                    var FS = File.Create(path);
+                    currentFile = path;
+                    FS.Close();
+                }
             }
             else return;
         }
