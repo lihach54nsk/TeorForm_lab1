@@ -186,7 +186,12 @@ namespace TeorForm_lab1
             currentState = states[0];
         }
 
-
+        /// <summary>
+        /// Производит поиск всех Email в исходной строке
+        /// </summary>
+        /// <param name="str">Исходная строка</param>
+        /// <param name="stateTarce">Данные о состояниях конечного автомата</param>
+        /// <returns></returns>
         public static List<string> FindEmails(string str, out List<int> stateTarce)
         {
             var obj = new EmailSearchStateMaсhine();
@@ -197,6 +202,11 @@ namespace TeorForm_lab1
             return obj.resultStrings;
         }
 
+        /// <summary>
+        /// Производит поиск всех Email в исходной строке
+        /// </summary>
+        /// <param name="str">Исходная строка</param>
+        /// <returns></returns>
         public static List<string> FindEmails(string str)
         {
             var obj = new EmailSearchStateMaсhine();
