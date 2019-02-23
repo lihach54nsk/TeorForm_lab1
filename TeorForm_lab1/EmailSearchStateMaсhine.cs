@@ -17,12 +17,17 @@ namespace TeorForm_lab1
         private readonly List<string> resultStrings = new List<string>();
 
         private StringBuilder stringBuilder;
+        private List<int> traceData;
         private Action<char> currentState;
 
         EmailSearchStateMaсhine()
         {
+            traceData = new List<int>();
+
             states[0] = character =>
-            {   
+            {
+                traceData.Add(0);
+
                 if(CheckCharacter(character, separators))
                 {
                     currentState = states[1];
@@ -35,6 +40,8 @@ namespace TeorForm_lab1
 
             states[1] = character =>
             {
+                traceData.Add(1);
+
                 if (CheckCharacter(character, numberOrLetters))
                 {
                     currentState = states[2];
@@ -49,6 +56,8 @@ namespace TeorForm_lab1
 
             states[2] = character =>
             {
+                traceData.Add(2);
+
                 if ('@' == character)
                 {
                     currentState = states[3];
@@ -67,6 +76,8 @@ namespace TeorForm_lab1
 
             states[3] = character =>
             {
+                traceData.Add(3);
+
                 if ('.' == character)
                 {
                     currentState = states[4];
@@ -85,6 +96,8 @@ namespace TeorForm_lab1
 
             states[4] = character =>
             {
+                traceData.Add(4);
+
                 if (CheckCharacter(character, numberOrLetters))
                 {
                     currentState = states[5];
@@ -98,6 +111,8 @@ namespace TeorForm_lab1
 
             states[5] = character =>
             {
+                traceData.Add(5);
+
                 if (CheckCharacter(character, numberOrLetters))
                 {
                     currentState = states[6];
@@ -116,7 +131,9 @@ namespace TeorForm_lab1
 
             states[6] = character =>
             {
-                if(character == '.')
+                traceData.Add(6);
+
+                if (character == '.')
                 {
                     currentState = states[4];
                     stringBuilder.Append(character);
@@ -144,6 +161,8 @@ namespace TeorForm_lab1
 
             states[7] = character =>
             {
+                traceData.Add(7);
+
                 if (character == '.')
                 {
                     currentState = states[4];
@@ -168,17 +187,34 @@ namespace TeorForm_lab1
         }
 
 
+        public static List<string> FindEmails(string str, out List<int> stateTarce)
+        {
+            var obj = new EmailSearchStateMaсhine();
+            var result = FindEmails(str, obj);
+
+            stateTarce = obj.traceData;
+
+            return obj.resultStrings;
+        }
+
         public static List<string> FindEmails(string str)
         {
             var obj = new EmailSearchStateMaсhine();
+            var result = FindEmails(str, obj);
+
+            return obj.resultStrings;
+        }
+
+        static List<string> FindEmails(string str, EmailSearchStateMaсhine stateMaсhine)
+        {
             str = '^' + str + '$';
 
             foreach (var item in str.ToCharArray())
             {
-                obj.currentState(item);
+                stateMaсhine.currentState(item);
             }
 
-            return obj.resultStrings;
+            return stateMaсhine.resultStrings;
         }
 
         private static bool CheckCharacter(char character, string allowChars)
