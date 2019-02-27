@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TeorForm_lab1
 {
     class EmailSearchStateMaсhine
-    {
-        private const string numberOrLetters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+    { 
         private const string separators = "^ ;,|$";
         private const string emailAllowChars = "-_";
 
@@ -27,7 +25,7 @@ namespace TeorForm_lab1
             states[0] = character =>
             {
                 traceData.Add(0);
-
+                
                 if(CheckCharacter(character, separators))
                 {
                     currentState = states[1];
@@ -42,7 +40,7 @@ namespace TeorForm_lab1
             {
                 traceData.Add(1);
 
-                if (CheckCharacter(character, numberOrLetters))
+                if (char.IsLetterOrDigit(character))
                 {
                     currentState = states[2];
                     stringBuilder = new StringBuilder();
@@ -63,7 +61,7 @@ namespace TeorForm_lab1
                     currentState = states[3];
                     stringBuilder.Append(character);
                 }
-                else if (CheckCharacter(character, numberOrLetters + emailAllowChars + '.'))
+                else if (char.IsLetterOrDigit(character) || IsEmailAllowSymbol(character) || character == '.')
                 {
                     currentState = states[2];
                     stringBuilder.Append(character);
@@ -83,7 +81,7 @@ namespace TeorForm_lab1
                     currentState = states[4];
                     stringBuilder.Append(character);
                 }
-                else if (CheckCharacter(character, numberOrLetters + emailAllowChars))
+                else if (char.IsLetterOrDigit(character) || IsEmailAllowSymbol(character))
                 {
                     currentState = states[3];
                     stringBuilder.Append(character);
@@ -98,7 +96,7 @@ namespace TeorForm_lab1
             {
                 traceData.Add(4);
 
-                if (CheckCharacter(character, numberOrLetters))
+                if (char.IsLetterOrDigit(character))
                 {
                     currentState = states[5];
                     stringBuilder.Append(character);
@@ -113,7 +111,7 @@ namespace TeorForm_lab1
             {
                 traceData.Add(5);
 
-                if (CheckCharacter(character, numberOrLetters))
+                if (char.IsLetterOrDigit(character))
                 {
                     currentState = states[6];
                     stringBuilder.Append(character);
@@ -143,7 +141,7 @@ namespace TeorForm_lab1
                     currentState = states[1];
                     resultStrings.Add(stringBuilder.ToString());
                 }
-                else if(CheckCharacter(character, numberOrLetters))
+                else if(char.IsLetterOrDigit(character))
                 {
                     currentState = states[6];
                     stringBuilder.Append(character);
@@ -168,7 +166,7 @@ namespace TeorForm_lab1
                     currentState = states[4];
                     stringBuilder.Append(character);
                 }
-                else if (CheckCharacter(character, numberOrLetters + emailAllowChars))
+                else if (char.IsLetterOrDigit(character) || IsEmailAllowSymbol(character))
                 {
                     currentState = states[7];
                     stringBuilder.Append(character);
@@ -229,18 +227,18 @@ namespace TeorForm_lab1
 
         private static bool CheckCharacter(char character, string allowChars)
         {
-            var check = false;
-
             foreach (var item in allowChars)
             {
                 if (item == character)
                 {
-                    check = true;
-                    break;
+                    return true;
                 }
             }
 
-            return check;
+            return false;
         }
+
+        private static bool IsEmailAllowSymbol(char character) =>
+            CheckCharacter(character, emailAllowChars);
     }
 }
