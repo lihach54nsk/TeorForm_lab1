@@ -6,11 +6,11 @@ using System.Text;
 namespace TeorForm_lab1
 {
     class EmailSearchStateMaсhine
-    { 
+    {
         private const string separators = "^ ;,|$";
         private const string emailAllowChars = "-_";
 
-        
+
         private readonly Action<char>[] states = new Action<char>[9];
         private readonly List<string> resultStrings = new List<string>();
 
@@ -25,8 +25,8 @@ namespace TeorForm_lab1
             states[0] = character =>
             {
                 traceData.Add(0);
-                
-                if(CheckCharacter(character, separators))
+
+                if (CheckCharacter(character, separators))
                 {
                     currentState = states[1];
                 }
@@ -141,7 +141,7 @@ namespace TeorForm_lab1
                     currentState = states[1];
                     resultStrings.Add(stringBuilder.ToString());
                 }
-                else if(char.IsLetterOrDigit(character))
+                else if (char.IsLetterOrDigit(character))
                 {
                     currentState = states[6];
                     stringBuilder.Append(character);

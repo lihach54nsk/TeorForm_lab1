@@ -57,7 +57,7 @@ namespace TeorForm_lab1
             nodes[5] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
                 new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 6),
-                new StateMachineTransaction<char>(c => IsSeparator(c), c => 
+                new StateMachineTransaction<char>(c => IsSeparator(c), c =>
                 {
                     var result = sb.ToString();
                     resultStrings.Add(result);
@@ -91,10 +91,11 @@ namespace TeorForm_lab1
         /// </summary>
         /// <param name="str">Исходная строка</param>
         /// <returns></returns>
-        public static List<string> FindEmails(string str)
+        public static List<string> FindEmails(string str, out List<int> traceData)
         {
             var obj = new EmailSearchStateMaсhineWithUSM();
             var result = FindEmails(str, obj);
+            traceData = obj.stateMachine.TraceData as List<int>;
 
             return obj.resultStrings;
         }
@@ -138,10 +139,8 @@ namespace TeorForm_lab1
 
         private void PutChar(char ch) => stateMachine.PutSymbol(ch);
 
-        private static bool IsEmailAllowSymbol(char character) =>
-            CheckCharacter(character, emailAllowChars);
+        private static bool IsEmailAllowSymbol(char character) => CheckCharacter(character, emailAllowChars);
 
-        private static bool IsSeparator(char character) =>
-            CheckCharacter(character, separators);
+        private static bool IsSeparator(char character) => CheckCharacter(character, separators);
     }
 }

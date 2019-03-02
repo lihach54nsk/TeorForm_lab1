@@ -24,5 +24,16 @@ namespace TeorForm_lab1
             for (int i = 0; i < result.Count; i++) richTextBoxEMailOut.AppendText(result[i].ToString() + " Индекс: " + result[i].Index +
                 " Длина адреса: " + result[i].Length + "\n");
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            richTextBoxEMailOut.Clear();
+            List<int> traceData = new List<int>();
+
+            var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out traceData);
+
+            foreach (var a in result) richTextBoxEMailOut.AppendText(a.ToString() + " Индекс: " + 
+                " Длина адреса: " + "\n");
+        }
     }
 }

@@ -215,5 +215,11 @@ namespace TeorForm_lab1
         {
             richTextBoxIn.Clear();
         }
+
+        private void emailStateMachineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EMailForm eMailForm = new EMailForm();
+            eMailForm.Show();
+        }
     }
 }
