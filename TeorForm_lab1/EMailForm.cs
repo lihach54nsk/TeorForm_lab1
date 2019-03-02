@@ -32,7 +32,7 @@ namespace TeorForm_lab1
 
             var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out traceData);
 
-            foreach (var a in result) richTextBoxEMailOut.AppendText(a.ToString() + " Индекс: " + 
+            foreach (var a in result) richTextBoxEMailOut.AppendText(a.ToString() + " Индекс: " +
                 " Длина адреса: " + "\n");
         }
     }

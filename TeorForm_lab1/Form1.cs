@@ -20,20 +20,11 @@ namespace TeorForm_lab1
 
         string currentFile = "";
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) { } // muda
 
-        } // muda
+        private void файлToolStripMenuItem_Click(object sender, EventArgs e) { } // muda
 
-        private void файлToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        } // muda
-
-        private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            currentFile = SaveAs();
-        }
+        private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e) => currentFile = SaveAs();
 
         string SaveAs()
         {
@@ -129,74 +120,41 @@ namespace TeorForm_lab1
             }
         }
 
-        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Create();
-        }
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e) => Create();
 
         private void CreateButton_Click(object sender, EventArgs e) => создатьToolStripMenuItem_Click(sender, e);
 
-        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Save();
-        }
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e) => Save();
 
         private void SaveButton_Click(object sender, EventArgs e) => сохранитьToolStripMenuItem_Click(sender, e);
 
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
 
-        private void отменитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.Undo();
-        }
+        private void отменитьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Undo();
 
         private void UndoButton_Click(object sender, EventArgs e) => отменитьToolStripMenuItem_Click(sender, e);
 
-        private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.Redo();
-        }
+        private void повторитьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Redo();
 
         private void RedoButton_Click(object sender, EventArgs e) => повторитьToolStripMenuItem_Click(sender, e);
 
-        private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.Cut();
-        }
+        private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Cut();
 
         private void CutButton_Click(object sender, EventArgs e) => вырезатьToolStripMenuItem_Click(sender, e);
 
-        private void копироватьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.Copy();
-        }
+        private void копироватьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Copy();
 
         private void CopyButton_Click(object sender, EventArgs e) => копироватьToolStripMenuItem_Click(sender, e);
 
-        private void вставитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.Paste();
-        }
+        private void вставитьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Paste();
 
         private void PasteButton_Click(object sender, EventArgs e) => вставитьToolStripMenuItem_Click(sender, e);
 
-        private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.SelectAll();
-        }
+        private void выделитьВсёToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.SelectAll();
 
-        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Эта программа создана на лабе!");
-        }
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e) => MessageBox.Show("Эта программа создана на лабе!");
 
-        private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Help.ShowHelp(this, "help.chm");
-        }
+        private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e) => Help.ShowHelp(this, "help.chm");
 
         private void emailToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -204,22 +162,12 @@ namespace TeorForm_lab1
             eMailForm.Show();
         }
 
-        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Open();
-        }
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e) => Open();
 
         private void OpenButton_Click(object sender, EventArgs e) => открытьToolStripMenuItem_Click(sender, e);
 
-        private void очиститьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxIn.Clear();
-        }
+        private void очиститьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Clear();
 
-        private void emailStateMachineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EMailForm eMailForm = new EMailForm();
-            eMailForm.Show();
-        }
+        private void emailStateMachineToolStripMenuItem_Click(object sender, EventArgs e) { } // muda
     }
 }

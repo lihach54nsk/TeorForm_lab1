@@ -101,7 +101,6 @@ namespace TeorForm_lab1
         }
 
 #if DEBUG
-
         public static List<string> FindEmails(string str, out IReadOnlyList<int> traceData)
         {
             var obj = new EmailSearchStateMaсhineWithUSM();
@@ -117,10 +116,7 @@ namespace TeorForm_lab1
         {
             str = '^' + str + '$';
 
-            foreach (var item in str.ToCharArray())
-            {
-                stateMaсhine.PutChar(item);
-            }
+            foreach (var item in str.ToCharArray()) stateMaсhine.PutChar(item);
 
             return stateMaсhine.resultStrings;
         }
@@ -129,10 +125,7 @@ namespace TeorForm_lab1
         {
             foreach (var item in allowChars)
             {
-                if (item == character)
-                {
-                    return true;
-                }
+                if (item == character) return true;
             }
             return false;
         }
