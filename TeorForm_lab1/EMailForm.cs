@@ -28,9 +28,8 @@ namespace TeorForm_lab1
         private void button1_Click(object sender, EventArgs e)
         {
             richTextBoxEMailOut.Clear();
-            List<int> traceData = new List<int>();
 
-            var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out traceData);
+            var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out List<int> traceData);
 
             foreach (var a in result) richTextBoxEMailOut.AppendText(a.ToString() + " Индекс: " +
                 " Длина адреса: " + "\n");
