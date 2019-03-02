@@ -29,10 +29,13 @@ namespace TeorForm_lab1
         {
             richTextBoxEMailOut.Clear();
 
-            var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out List<int> traceData);
+            var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out var traceData);
 
-            foreach (var a in result) richTextBoxEMailOut.AppendText(a.ToString() + " Индекс: " +
-                " Длина адреса: " + "\n");
+            foreach (var a in result)
+            {
+                richTextBoxEMailOut.AppendText($"{a.data} Индекс: {a.position} Длина адреса: {a.length}\n");
+            }
+                
         }
     }
 }

@@ -10,14 +10,16 @@ namespace TeorForm_lab1
         private const string emailAllowChars = "-_";
 
         private readonly UniversalStateMachine<char> stateMachine;
-        private readonly List<string> resultStrings;
+        private readonly List<FindedDataInfo> resultStrings;
         private StringBuilder sb;
+        private int position;
+        private int startPosition;
 
         EmailSearchStateMaсhineWithUSM()
         {
             var nodes = new StateMachineNode<char>[8];
             sb = new StringBuilder();
-            resultStrings = new List<string>();
+            resultStrings = new List<FindedDataInfo>();
 
             nodes[0] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
@@ -30,6 +32,7 @@ namespace TeorForm_lab1
                 {
                     sb.Clear();
                     sb.Append(c);
+                    startPosition = position;
                 }, 2),
                 new StateMachineTransaction<char>(c => IsSeparator(c), null, 1),
             }, 0);
@@ -59,8 +62,7 @@ namespace TeorForm_lab1
                 new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 6),
                 new StateMachineTransaction<char>(c => IsSeparator(c), c =>
                 {
-                    var result = sb.ToString();
-                    resultStrings.Add(result);
+                    ApplySearchResult();
                 }, 1),
             }, 0);
 
@@ -69,8 +71,7 @@ namespace TeorForm_lab1
                 new StateMachineTransaction<char>(c => c == '.', c => sb.Append(c), 4),
                 new StateMachineTransaction<char>(c => IsSeparator(c), c =>
                 {
-                    var result = sb.ToString();
-                    resultStrings.Add(result);
+                    ApplySearchResult();
                 }, 1),
                 new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 6),
                 new StateMachineTransaction<char>(c => IsEmailAllowSymbol(c), c => sb.Append(c), 7),
@@ -91,32 +92,36 @@ namespace TeorForm_lab1
         /// </summary>
         /// <param name="str">Исходная строка</param>
         /// <returns></returns>
-        public static List<string> FindEmails(string str, out List<int> traceData)
+        public static List<FindedDataInfo> FindEmails(string str)
         {
             var obj = new EmailSearchStateMaсhineWithUSM();
             var result = FindEmails(str, obj);
-            traceData = obj.stateMachine.TraceData as List<int>;
 
-            return obj.resultStrings;
+            return result;
         }
 
 #if DEBUG
-        public static List<string> FindEmails(string str, out IReadOnlyList<int> traceData)
+        public static List<FindedDataInfo> FindEmails(string str, out IReadOnlyList<int> traceData)
         {
             var obj = new EmailSearchStateMaсhineWithUSM();
             var result = FindEmails(str, obj);
 
             traceData = obj.stateMachine.TraceData;
 
-            return obj.resultStrings;
+            return result;
         }
 #endif
 
-        static List<string> FindEmails(string str, EmailSearchStateMaсhineWithUSM stateMaсhine)
+        static List<FindedDataInfo> FindEmails(string str, EmailSearchStateMaсhineWithUSM stateMaсhine)
         {
             str = '^' + str + '$';
 
-            foreach (var item in str.ToCharArray()) stateMaсhine.PutChar(item);
+            char[] array = str.ToCharArray();
+            for (stateMaсhine.position = 0; stateMaсhine.position < array.Length; stateMaсhine.position++)
+            {
+                char item = array[stateMaсhine.position];
+                stateMaсhine.PutChar(item);
+            };
 
             return stateMaсhine.resultStrings;
         }
@@ -131,6 +136,18 @@ namespace TeorForm_lab1
         }
 
         private void PutChar(char ch) => stateMachine.PutSymbol(ch);
+
+
+        private void ApplySearchResult()
+        {
+            var result = sb.ToString();
+            resultStrings.Add(new FindedDataInfo
+            {
+                data = result,
+                length = position - startPosition,
+                position = startPosition - 1,
+            });
+        }
 
         private static bool IsEmailAllowSymbol(char character) => CheckCharacter(character, emailAllowChars);
 
