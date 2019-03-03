@@ -9,5 +9,6 @@ namespace TeorForm_lab1.Lexer
     interface ISyntaxToken
     {
         SyntaxKind SyntaxKind { get; }
+        int SourceTextPosition { get; }
     }
 }
