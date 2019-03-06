@@ -17,7 +17,7 @@ namespace TeorForm_lab1
 
         EmailSearchStateMaсhineWithUSM()
         {
-            var nodes = new StateMachineNode<char>[8];
+            var nodes = new StateMachineNode<char>[9];
             sb = new StringBuilder();
             resultStrings = new List<FindedDataInfo>();
 
@@ -46,42 +46,40 @@ namespace TeorForm_lab1
 
             nodes[3] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
-                new StateMachineTransaction<char>(c => c == '.', c => sb.Append(c), 4),
-                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c) || IsEmailAllowSymbol(c), c=> sb.Append(c), 3),
+                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 4),
                 new StateMachineTransaction<char>(c => IsSeparator(c), null, 1),
             }, 0);
 
             nodes[4] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
-                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 5),
+                new StateMachineTransaction<char>(c => c == '.', c => sb.Append(c), 5),
+                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c) || IsEmailAllowSymbol(c), c=> sb.Append(c), 4),
                 new StateMachineTransaction<char>(c => IsSeparator(c), null, 1),
             }, 0);
 
             nodes[5] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
-                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 6),
-                new StateMachineTransaction<char>(c => IsSeparator(c), c =>
-                {
-                    ApplySearchResult();
-                }, 1),
+                new StateMachineTransaction<char>(c => char.IsLetter(c), c => sb.Append(c), 6),
+                new StateMachineTransaction<char>(c => char.IsNumber(c) || IsEmailAllowSymbol(c), c => sb.Append(c), 4),
+                new StateMachineTransaction<char>(c => IsSeparator(c), null, 1),
             }, 0);
 
             nodes[6] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
-                new StateMachineTransaction<char>(c => c == '.', c => sb.Append(c), 4),
-                new StateMachineTransaction<char>(c => IsSeparator(c), c =>
-                {
-                    ApplySearchResult();
-                }, 1),
-                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c), c => sb.Append(c), 6),
-                new StateMachineTransaction<char>(c => IsEmailAllowSymbol(c), c => sb.Append(c), 7),
+                new StateMachineTransaction<char>(c => char.IsLetter(c), c => sb.Append(c), 7),
+                new StateMachineTransaction<char>(c => char.IsNumber(c) || IsEmailAllowSymbol(c), c => sb.Append(c), 4),
+                new StateMachineTransaction<char>(c => IsSeparator(c), null, 1),
             }, 0);
 
             nodes[7] = new StateMachineNode<char>(new StateMachineTransaction<char>[]
             {
-                new StateMachineTransaction<char>(c => c == '.', c => sb.Append(c), 4),
-                new StateMachineTransaction<char>(c => char.IsLetterOrDigit(c) || IsEmailAllowSymbol(c), c => sb.Append(c), 7),
-                new StateMachineTransaction<char>(c => IsSeparator(c), null, 1)
+                new StateMachineTransaction<char>(c => c == '.', c => sb.Append(c), 5),
+                new StateMachineTransaction<char>(c => IsSeparator(c), c =>
+                {
+                    ApplySearchResult();
+                }, 1),
+                new StateMachineTransaction<char>(c => char.IsLetter(c), c => sb.Append(c), 7),
+                new StateMachineTransaction<char>(c => char.IsNumber(c) || IsEmailAllowSymbol(c), c => sb.Append(c), 4),
             }, 0);
 
             stateMachine = new UniversalStateMachine<char>(nodes);
