@@ -35,7 +35,9 @@ namespace TeorForm_lab1
             {
                 richTextBoxEMailOut.AppendText($"{a.data} Индекс: {a.position} Длина адреса: {a.length}\n");
             }
-                
+            richTextBoxEMailOut.AppendText("Перечень состояний КА:\n");
+
+            foreach (var a in traceData) richTextBoxEMailOut.AppendText(a.ToString() + "\n");                
         }
     }
 }
