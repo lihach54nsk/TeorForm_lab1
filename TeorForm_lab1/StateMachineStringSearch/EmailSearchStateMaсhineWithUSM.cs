@@ -64,7 +64,7 @@ namespace TeorForm_lab1
                 new StateMachineTransaction<char>(c => IsSeparator(c), null, 1),
             }, 0);
 
-            nodes[6] = new StateMachineNode<char>(new StateMachineTransaction<char>[] //
+            nodes[6] = new StateMachineNode<char>(new StateMachineTransaction<char>[] // считывание домена второго уровня
             {
                 new StateMachineTransaction<char>(c => char.IsLetter(c), c => sb.Append(c), 7),
                 new StateMachineTransaction<char>(c => char.IsNumber(c) || IsEmailAllowSymbol(c), c => sb.Append(c), 4),
