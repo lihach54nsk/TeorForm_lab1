@@ -169,5 +169,11 @@ namespace TeorForm_lab1
         private void очиститьToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxIn.Clear();
 
         private void emailStateMachineToolStripMenuItem_Click(object sender, EventArgs e) { } // muda
+
+        private void лексическийАнализаторToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Lexer_Form lexer_Form = new Lexer_Form();
+            lexer_Form.Show();
+        }
     }
 }

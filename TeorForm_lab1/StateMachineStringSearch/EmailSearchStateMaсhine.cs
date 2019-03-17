@@ -10,7 +10,6 @@ namespace TeorForm_lab1
         private const string separators = "^ ;,|$";
         private const string emailAllowChars = "-_";
 
-
         private readonly Action<char>[] states = new Action<char>[9];
         private readonly List<string> resultStrings = new List<string>();
 

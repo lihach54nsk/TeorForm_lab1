@@ -15,7 +15,7 @@
         {
             foreach (var item in _transactions)
             {
-                if(item.CheckRule(value))
+                if (item.CheckRule(value))
                 {
                     item.OnStateChange?.Invoke(value);
                     return item.NewStateNumber;

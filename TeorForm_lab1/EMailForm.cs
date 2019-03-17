@@ -12,10 +12,7 @@ namespace TeorForm_lab1
 {
     public partial class EMailForm : Form
     {
-        public EMailForm()
-        {
-            InitializeComponent();
-        }
+        public EMailForm() => InitializeComponent();
 
         private void FindEMailButton_Click(object sender, EventArgs e)
         {
@@ -32,12 +29,11 @@ namespace TeorForm_lab1
             var result = EmailSearchStateMaсhineWithUSM.FindEmails(richTextBoxEMailIn.Text.ToString(), out var traceData);
 
             foreach (var a in result)
-            {
                 richTextBoxEMailOut.AppendText($"{a.data} Индекс: {a.position} Длина адреса: {a.length}\n");
-            }
+
             richTextBoxEMailOut.AppendText("Перечень состояний КА:\n");
 
-            foreach (var a in traceData) richTextBoxEMailOut.AppendText(a.ToString() + "\n");                
+            foreach (var a in traceData) richTextBoxEMailOut.AppendText(a.ToString() + "\n");
         }
     }
 }
