@@ -30,6 +30,7 @@ namespace TeorForm_lab1
                     case Lexer.SyntaxValueToken<double> doubleType: richTextBoxOut.AppendText(doubleType.Value.ToString() + " - " + doubleType.SyntaxKind.ToString() + " Позиция - " + doubleType.SourceTextPosition.ToString() + "\n"); break;
                     case Lexer.SyntaxIdentifierToken iden: richTextBoxOut.AppendText($"{ iden.IdentifierName} - {iden.SyntaxKind}  Позиция - {iden.SourceTextPosition}\n"); break;
                     case Lexer.SyntaxTriviaToken trivia: richTextBoxOut.AppendText($"{trivia.SyntaxKind} Позиция - {trivia.SourceTextPosition}"); break;
+                    case Lexer.SyntaxUnknownToken unknown: richTextBoxOut.AppendText($"{unknown.Text} - {unknown.SyntaxKind} Позиция - {unknown.SourceTextPosition}\n"); break;
                 }
             }
         }
