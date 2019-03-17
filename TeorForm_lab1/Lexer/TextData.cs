@@ -1,6 +1,6 @@
 ﻿namespace TeorForm_lab1.Lexer
 {
-    class TextData
+    public class TextData
     {
         public int Position { get; private set; }
 
