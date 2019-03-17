@@ -15,6 +15,9 @@ namespace TeorForm_lab1
         [STAThread]
         static void Main()
         {
+            var source = "fwioqf {wfeiofei} \" efwwefoeo\" $ 1488;";
+            var tokens = Lexer.Lexer.GetTokens(new TextData(source));
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

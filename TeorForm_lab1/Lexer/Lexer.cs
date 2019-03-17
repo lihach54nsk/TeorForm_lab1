@@ -173,6 +173,12 @@ namespace TeorForm_lab1.Lexer
                         lexer.ScanCharacter(ref tokenInfo);
                         break;
 
+                    case ';':
+                        tokenInfo.position = data.Position;
+                        tokenInfo.kind = SyntaxKind.SemicolonToken;
+                        data.AdvanceChar();
+                        break;
+
                     case 'a':
                     case 'b':
                     case 'c':
@@ -242,7 +248,11 @@ namespace TeorForm_lab1.Lexer
                         lexer.ScanNumericOrLiteralValue(ref tokenInfo);
                         break;
                     default:
-                        throw new FormatException("Недопустимый символ");
+                        tokenInfo.position = data.Position;
+                        tokenInfo.kind = SyntaxKind.Unknown;
+                        tokenInfo.Text = data.PeekChar().ToString();
+                        data.AdvanceChar();
+                        break;
                 }
 
                 if (tokenInfo.kind!= SyntaxKind.None)
@@ -315,7 +325,10 @@ namespace TeorForm_lab1.Lexer
                 case SyntaxKind.ForKeyword:
                 case SyntaxKind.WhileKeyword:
                 case SyntaxKind.IfKeyword:
+                case SyntaxKind.SemicolonToken:
                     return new SyntaxTriviaToken(tokenInfo.kind, tokenInfo.position);
+                case SyntaxKind.Unknown:
+                    return new SyntaxUnknownToken(tokenInfo.position, tokenInfo.Text);
                 default:
                     throw new NotImplementedException();
             }
@@ -583,9 +596,25 @@ namespace TeorForm_lab1.Lexer
         public int SourceTextPosition { get; }
     }
 
+    class SyntaxUnknownToken : ISyntaxToken
+    {
+        public SyntaxUnknownToken(int sourceTextPosition, string text)
+        {
+            SourceTextPosition = sourceTextPosition;
+            Text = text;
+        }
+
+        public SyntaxKind SyntaxKind => SyntaxKind.Unknown;
+
+        public int SourceTextPosition { get; }
+
+        public string Text { get; }
+    }
+
     enum SyntaxKind:ushort
     {
         None,
+        Unknown,
         StringKeyword,
         IntKeyword,
         IdentifierToken,
@@ -593,6 +622,7 @@ namespace TeorForm_lab1.Lexer
         DoubleLiteralToken,
         IntLiteralToken,
         CharLiteralToken,
+        SemicolonToken,
 
         //Arithmetic operators
         EqualToken,
