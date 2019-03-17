@@ -170,7 +170,13 @@ namespace TeorForm_lab1.Lexer
                         break;
 
                     case '\'':
-                        lexer.ScanCharacter(ref tokenInfo);
+                        if(data.PeekChar(2) != '\'')
+                            goto default;
+                        tokenInfo.position = data.Position;
+                        tokenInfo.kind = SyntaxKind.CharLiteralToken;
+                        tokenInfo.specialType = SpecialType.System_Char;
+                        tokenInfo.CharValue = data.PeekChar(1);
+                        data.AdvanceChar(3);
                         break;
 
                     case ';':
@@ -567,40 +573,6 @@ namespace TeorForm_lab1.Lexer
                     _textData.AdvanceChar(length);
                 }
             }
-        }
-
-        private void ScanCharacter(ref TokenInfo tokenInfo)
-        {
-            var startOffset = _textData.Position + 1;
-            var currentOffset = startOffset;
-            var chars = _textData.SourceCode;
-
-            if (chars[startOffset - 1] != '\'')
-            {
-                throw new FormatException();
-            }
-
-            while (chars[currentOffset++] != '\'')
-            {
-                if (currentOffset >= chars.Length)
-                {
-                    throw new FormatException("Кавычки не закрыты");
-                }
-            }
-
-            var length = currentOffset - startOffset - 1;
-
-            if (length <= 0)
-            {
-                throw new FormatException();
-            }
-
-            tokenInfo.Text = chars.Substring(startOffset, length);
-            tokenInfo.CharValue = char.Parse(tokenInfo.Text);
-            tokenInfo.kind = SyntaxKind.CharLiteralToken;
-            tokenInfo.specialType = SpecialType.System_Char;
-            tokenInfo.position = startOffset;
-            _textData.AdvanceChar(length + 2);
         }
     }
 
