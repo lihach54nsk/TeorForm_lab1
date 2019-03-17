@@ -49,7 +49,7 @@
             this.richTextBoxIn.Name = "richTextBoxIn";
             this.richTextBoxIn.Size = new System.Drawing.Size(776, 101);
             this.richTextBoxIn.TabIndex = 1;
-            this.richTextBoxIn.Text = "int double fuck float";
+            this.richTextBoxIn.Text = "int \"double\" fuck float 5 \"+\" \"++\" - \'*\' \'/\'";
             // 
             // richTextBoxOut
             // 
