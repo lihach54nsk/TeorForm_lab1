@@ -64,7 +64,7 @@ namespace TeorForm_lab1.Lexer
                         {
                             tokenInfo.kind = SyntaxKind.PlusPlusToken;
                             data.AdvanceChar(2);
-                        }  
+                        }
                         else if (data.PeekChar(1) == '=')
                         {
                             tokenInfo.kind = SyntaxKind.PlusEqualToken;
@@ -110,7 +110,7 @@ namespace TeorForm_lab1.Lexer
                             tokenInfo.kind = SyntaxKind.MultToken;
                             data.AdvanceChar();
                         }
-                        
+
                         break;
 
                     case '/':
@@ -245,13 +245,11 @@ namespace TeorForm_lab1.Lexer
                         throw new FormatException("Недопустимый символ");
                 }
 
-                if (tokenInfo.kind!= SyntaxKind.None)
+                if (tokenInfo.kind != SyntaxKind.None)
                 {
                     tempTokens.Add(GetToken(ref tokenInfo));
                 }
             }
-
-
 
             return tempTokens;
         }
@@ -331,23 +329,72 @@ namespace TeorForm_lab1.Lexer
             {
                 switch (chars[currentOffset])
                 {
-                    case 'a': case 'b':
-                    case 'c': case 'd': case 'e': case 'f': case 'g':
-                    case 'h': case 'i': case 'j': case 'k': case 'l':
-                    case 'm': case 'n': case 'o': case 'p': case 'q':
-                    case 'r': case 's': case 't': case 'u': case 'v':
-                    case 'w': case 'x': case 'y': case 'z': case 'A':
-                    case 'B': case 'C': case 'D': case 'E': case 'F':
-                    case 'G': case 'H': case 'I': case 'J': case 'K':
-                    case 'L': case 'M': case 'N': case 'O': case 'P':
-                    case 'Q': case 'R': case 'S': case 'T': case 'U':
-                    case 'V': case 'W': case 'X': case 'Y': case 'Z':
+                    case 'a':
+                    case 'b':
+                    case 'c':
+                    case 'd':
+                    case 'e':
+                    case 'f':
+                    case 'g':
+                    case 'h':
+                    case 'i':
+                    case 'j':
+                    case 'k':
+                    case 'l':
+                    case 'm':
+                    case 'n':
+                    case 'o':
+                    case 'p':
+                    case 'q':
+                    case 'r':
+                    case 's':
+                    case 't':
+                    case 'u':
+                    case 'v':
+                    case 'w':
+                    case 'x':
+                    case 'y':
+                    case 'z':
+                    case 'A':
+                    case 'B':
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                    case 'G':
+                    case 'H':
+                    case 'I':
+                    case 'J':
+                    case 'K':
+                    case 'L':
+                    case 'M':
+                    case 'N':
+                    case 'O':
+                    case 'P':
+                    case 'Q':
+                    case 'R':
+                    case 'S':
+                    case 'T':
+                    case 'U':
+                    case 'V':
+                    case 'W':
+                    case 'X':
+                    case 'Y':
+                    case 'Z':
                         currentOffset++;
                         break;
 
-                    case '0': case '1': case '2': case '3': case '4':
-                    case '5': case '6': case '7': case '8': case '9':
-                        if(currentOffset==startOffset)
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        if (currentOffset == startOffset)
                         {
                             throw new FormatException("Первым символом идентификатора не может быть число");
                         }
@@ -364,7 +411,7 @@ namespace TeorForm_lab1.Lexer
             var length = currentOffset - startOffset;
             tokenInfo.Text = chars.Substring(startOffset, length);
 
-            if(TryGetKeyword(tokenInfo.Text, out var kind))
+            if (TryGetKeyword(tokenInfo.Text, out var kind))
             {
                 tokenInfo.kind = kind;
             }
@@ -397,7 +444,7 @@ namespace TeorForm_lab1.Lexer
 
         private void ScanNumericOrLiteralValue(ref TokenInfo tokenInfo)
         {
-            if(_textData.PeekChar() == '"')
+            if (_textData.PeekChar() == '"')
             {
                 var startOffset = _textData.Position + 1;
                 var currentOffset = startOffset;
@@ -405,7 +452,7 @@ namespace TeorForm_lab1.Lexer
 
                 while (chars[currentOffset++] != '"')
                 {
-                    if(currentOffset >= chars.Length)
+                    if (currentOffset >= chars.Length)
                     {
                         throw new FormatException("Кавычки не закрыты");
                     }
@@ -413,7 +460,7 @@ namespace TeorForm_lab1.Lexer
 
                 var length = currentOffset - startOffset - 1;
 
-                if(length <=0)
+                if (length <= 0)
                 {
                     throw new FormatException();
                 }
@@ -433,9 +480,9 @@ namespace TeorForm_lab1.Lexer
                 var isDouble = false;
                 var isExponentExist = false;
 
-                while (chars.Length>currentOffset)
+                while (chars.Length > currentOffset)
                 {
-                    switch(chars[currentOffset])
+                    switch (chars[currentOffset])
                     {
                         case '0':
                         case '1':
@@ -471,7 +518,7 @@ namespace TeorForm_lab1.Lexer
 
             EndOfLoop:
 
-                if(isDouble && isExponentExist)
+                if (isDouble && isExponentExist)
                 {
                     var length = currentOffset - startOffset;
 
@@ -583,7 +630,7 @@ namespace TeorForm_lab1.Lexer
         public int SourceTextPosition { get; }
     }
 
-    enum SyntaxKind:ushort
+    enum SyntaxKind : ushort
     {
         None,
         StringKeyword,

@@ -29,7 +29,7 @@
             return SourceCode[Position + offset];
         }
 
-        public void AdvanceChar() 
+        public void AdvanceChar()
             => Position += 1;
 
         public void AdvanceChar(int offset)
