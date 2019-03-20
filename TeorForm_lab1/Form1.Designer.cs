@@ -55,6 +55,7 @@
             this.исходныйКодПрограммыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пускToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.лексическийАнализаторToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вызовСправкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +69,7 @@
             this.CopyButton = new System.Windows.Forms.Button();
             this.PasteButton = new System.Windows.Forms.Button();
             this.CutButton = new System.Windows.Forms.Button();
-            this.лексическийАнализаторToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.anal_Button = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -289,6 +290,13 @@
             this.emailToolStripMenuItem.Text = "E-mail";
             this.emailToolStripMenuItem.Click += new System.EventHandler(this.emailToolStripMenuItem_Click);
             // 
+            // лексическийАнализаторToolStripMenuItem
+            // 
+            this.лексическийАнализаторToolStripMenuItem.Name = "лексическийАнализаторToolStripMenuItem";
+            this.лексическийАнализаторToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.лексическийАнализаторToolStripMenuItem.Text = "Лексический анализатор";
+            this.лексическийАнализаторToolStripMenuItem.Click += new System.EventHandler(this.лексическийАнализаторToolStripMenuItem_Click);
+            // 
             // справкаToolStripMenuItem
             // 
             this.справкаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -319,14 +327,14 @@
             this.richTextBoxIn.Name = "richTextBoxIn";
             this.richTextBoxIn.Size = new System.Drawing.Size(854, 134);
             this.richTextBoxIn.TabIndex = 5;
-            this.richTextBoxIn.Text = "";
+            this.richTextBoxIn.Text = "int \"double\" fuck float 5 \"+\" \"++\" - \'*\' \'/\'";
             // 
             // richTextBoxOut
             // 
-            this.richTextBoxOut.Location = new System.Drawing.Point(12, 228);
+            this.richTextBoxOut.Location = new System.Drawing.Point(12, 217);
             this.richTextBoxOut.Name = "richTextBoxOut";
             this.richTextBoxOut.ReadOnly = true;
-            this.richTextBoxOut.Size = new System.Drawing.Size(854, 134);
+            this.richTextBoxOut.Size = new System.Drawing.Size(854, 145);
             this.richTextBoxOut.TabIndex = 6;
             this.richTextBoxOut.Text = "";
             // 
@@ -417,18 +425,22 @@
             this.CutButton.UseVisualStyleBackColor = true;
             this.CutButton.Click += new System.EventHandler(this.CutButton_Click);
             // 
-            // лексическийАнализаторToolStripMenuItem
+            // anal_Button
             // 
-            this.лексическийАнализаторToolStripMenuItem.Name = "лексическийАнализаторToolStripMenuItem";
-            this.лексическийАнализаторToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.лексическийАнализаторToolStripMenuItem.Text = "Лексический анализатор";
-            this.лексическийАнализаторToolStripMenuItem.Click += new System.EventHandler(this.лексическийАнализаторToolStripMenuItem_Click);
+            this.anal_Button.Location = new System.Drawing.Point(12, 368);
+            this.anal_Button.Name = "anal_Button";
+            this.anal_Button.Size = new System.Drawing.Size(175, 23);
+            this.anal_Button.TabIndex = 17;
+            this.anal_Button.Text = "Ковальски, анализ!";
+            this.anal_Button.UseVisualStyleBackColor = true;
+            this.anal_Button.Click += new System.EventHandler(this.anal_Button_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 374);
+            this.ClientSize = new System.Drawing.Size(878, 396);
+            this.Controls.Add(this.anal_Button);
             this.Controls.Add(this.PasteButton);
             this.Controls.Add(this.CutButton);
             this.Controls.Add(this.CopyButton);
@@ -491,6 +503,7 @@
         private System.Windows.Forms.Button CutButton;
         private System.Windows.Forms.ToolStripMenuItem очиститьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem лексическийАнализаторToolStripMenuItem;
+        private System.Windows.Forms.Button anal_Button;
     }
 }
 
