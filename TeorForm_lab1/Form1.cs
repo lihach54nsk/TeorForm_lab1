@@ -13,10 +13,7 @@ namespace TeorForm_lab1
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
-        }
+        public Form1() => InitializeComponent();
 
         string currentFile = "";
 
@@ -35,7 +32,7 @@ namespace TeorForm_lab1
             if (SFD.ShowDialog() == DialogResult.OK)
             {
                 string file = SFD.FileName;
-                File.WriteAllText(file, richTextBoxIn.Text.ToString());
+                File.WriteAllText(file, richTextBoxOut.Text.ToString());
                 return SFD.FileName;
             }
             else return currentFile;
@@ -44,7 +41,7 @@ namespace TeorForm_lab1
         void Save()
         {
             if (currentFile == "") currentFile = SaveAs();
-            else File.WriteAllText(currentFile, richTextBoxIn.Text.ToString());
+            else File.WriteAllText(currentFile, richTextBoxOut.Text.ToString());
         }
 
         void Create()
