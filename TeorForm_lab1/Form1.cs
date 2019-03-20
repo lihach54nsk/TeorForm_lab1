@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using TeorForm_lab1.RecursiveDescent;
 
 namespace TeorForm_lab1
 {
@@ -16,10 +17,6 @@ namespace TeorForm_lab1
         public Form1() => InitializeComponent();
 
         string currentFile = "";
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) { } // muda
-
-        private void файлToolStripMenuItem_Click(object sender, EventArgs e) { } // muda
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e) => currentFile = SaveAs();
 
@@ -169,29 +166,66 @@ namespace TeorForm_lab1
 
         private void лексическийАнализаторToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Lexer_Form lexer_Form = new Lexer_Form();
-            lexer_Form.Show();
+            richTextBoxOut.Text = LexerAnalisys(richTextBoxIn.Text);
         }
 
-        private void anal_Button_Click(object sender, EventArgs e)
+        private string LexerAnalisys(string input)
         {
-            richTextBoxOut.Clear();
-            Lexer.TextData text = new Lexer.TextData(richTextBoxIn.Text.ToString());
-            var result = Lexer.Lexer.GetTokens(text);
+            var result = Lexer.Lexer.GetTokens(new Lexer.TextData(input));
+            var sb = new StringBuilder();
 
             foreach (var a in result)
             {
                 switch (a)
                 {
-                    case Lexer.SyntaxValueToken<string> str: richTextBoxOut.AppendText(str.Value.ToString() + " - " + str.SyntaxKind.ToString() + " Позиция - " + str.SourceTextPosition.ToString() + "\n"); break;
-                    case Lexer.SyntaxValueToken<int> inti: richTextBoxOut.AppendText(inti.Value.ToString() + " - " + inti.SyntaxKind.ToString() + " Позиция - " + inti.SourceTextPosition.ToString() + "\n"); break;
-                    case Lexer.SyntaxValueToken<char> charType: richTextBoxOut.AppendText(charType.Value.ToString() + " - " + charType.SyntaxKind.ToString() + " Позиция - " + charType.SourceTextPosition.ToString() + "\n"); break;
-                    case Lexer.SyntaxValueToken<double> doubleType: richTextBoxOut.AppendText(doubleType.Value.ToString() + " - " + doubleType.SyntaxKind.ToString() + " Позиция - " + doubleType.SourceTextPosition.ToString() + "\n"); break;
-                    case Lexer.SyntaxIdentifierToken iden: richTextBoxOut.AppendText($"{ iden.IdentifierName} - {iden.SyntaxKind}  Позиция - {iden.SourceTextPosition}\n"); break;
-                    case Lexer.SyntaxTriviaToken trivia: richTextBoxOut.AppendText($"{trivia.SyntaxKind} Позиция - {trivia.SourceTextPosition}"); break;
-                    case Lexer.SyntaxUnknownToken unknown: richTextBoxOut.AppendText($"{unknown.Text} - {unknown.SyntaxKind} Позиция - {unknown.SourceTextPosition}\n"); break;
+                    case Lexer.SyntaxValueToken<string> str:
+                        sb.AppendLine($"Значение: {str.Value}; Тип: {str.SyntaxKind}; Позиция: {str.SourceTextPosition};");
+                        break;
+                    case Lexer.SyntaxValueToken<int> inti:
+                        sb.AppendLine($"Значение: {inti.Value}; Тип: {inti.SyntaxKind}; Позиция: {inti.SourceTextPosition};");
+                        break; 
+                    case Lexer.SyntaxValueToken<char> charType:
+                        sb.AppendLine($"Значение: {charType.Value}; Тип: {charType.SyntaxKind}; Позиция: {charType.SourceTextPosition};");
+                        break;
+                    case Lexer.SyntaxValueToken<double> doubleType:
+                        sb.AppendLine($"Значение: {doubleType.Value}; Тип: {doubleType.SyntaxKind}; Позиция: {doubleType.SourceTextPosition};");
+                        break;
+                    case Lexer.SyntaxIdentifierToken iden:
+                        sb.AppendLine($"Имя идентификатора: {iden.IdentifierName}; Тип: {iden.SyntaxKind}; Позиция: {iden.SourceTextPosition};");
+                        break;
+                    case Lexer.SyntaxTriviaToken trivia:
+                        sb.AppendLine($"Тип: {trivia.SyntaxKind}; Позиция: {trivia.SourceTextPosition};");
+                        break;
+                    case Lexer.SyntaxUnknownToken unknown:
+                        sb.AppendLine($"Неизвестный токен; Значение: {unknown.Text}; Тип: {unknown.SyntaxKind}; Позиция: {unknown.SourceTextPosition}");
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
+
+            return sb.ToString();
+        }
+
+        private void рекурсивныйСпускToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBoxOut.Text = RecoursiveDescent(richTextBoxIn.Text);
+        }
+
+        private string RecoursiveDescent(string input)
+        {
+            var result = ArithmeticExpressionParser.Parse(input);
+            var builder = new StringBuilder();
+
+            builder.AppendLine($"Прочитанная строка: {result.ResultString};")
+                .Append("Перечень состояний:");
+
+            foreach (var item in result.States)
+            {
+                builder.Append(" ➜ ").Append(item);
+            }
+
+            return builder.ToString();
         }
     }
 }

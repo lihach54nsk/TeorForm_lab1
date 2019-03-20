@@ -69,7 +69,7 @@
             this.CopyButton = new System.Windows.Forms.Button();
             this.PasteButton = new System.Windows.Forms.Button();
             this.CutButton = new System.Windows.Forms.Button();
-            this.anal_Button = new System.Windows.Forms.Button();
+            this.рекурсивныйСпускToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,7 +98,6 @@
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
-            this.файлToolStripMenuItem.Click += new System.EventHandler(this.файлToolStripMenuItem_Click);
             // 
             // создатьToolStripMenuItem
             // 
@@ -277,7 +276,8 @@
             // 
             this.пускToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.emailToolStripMenuItem,
-            this.лексическийАнализаторToolStripMenuItem});
+            this.лексическийАнализаторToolStripMenuItem,
+            this.рекурсивныйСпускToolStripMenuItem});
             this.пускToolStripMenuItem.Name = "пускToolStripMenuItem";
             this.пускToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.пускToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
@@ -327,14 +327,14 @@
             this.richTextBoxIn.Name = "richTextBoxIn";
             this.richTextBoxIn.Size = new System.Drawing.Size(854, 134);
             this.richTextBoxIn.TabIndex = 5;
-            this.richTextBoxIn.Text = "int \"double\" fuck float 5 \"+\" \"++\" - \'*\' \'/\'";
+            this.richTextBoxIn.Text = "";
             // 
             // richTextBoxOut
             // 
             this.richTextBoxOut.Location = new System.Drawing.Point(12, 217);
             this.richTextBoxOut.Name = "richTextBoxOut";
             this.richTextBoxOut.ReadOnly = true;
-            this.richTextBoxOut.Size = new System.Drawing.Size(854, 145);
+            this.richTextBoxOut.Size = new System.Drawing.Size(854, 167);
             this.richTextBoxOut.TabIndex = 6;
             this.richTextBoxOut.Text = "";
             // 
@@ -425,22 +425,18 @@
             this.CutButton.UseVisualStyleBackColor = true;
             this.CutButton.Click += new System.EventHandler(this.CutButton_Click);
             // 
-            // anal_Button
+            // рекурсивныйСпускToolStripMenuItem
             // 
-            this.anal_Button.Location = new System.Drawing.Point(12, 368);
-            this.anal_Button.Name = "anal_Button";
-            this.anal_Button.Size = new System.Drawing.Size(175, 23);
-            this.anal_Button.TabIndex = 17;
-            this.anal_Button.Text = "Ковальски, анализ!";
-            this.anal_Button.UseVisualStyleBackColor = true;
-            this.anal_Button.Click += new System.EventHandler(this.anal_Button_Click);
+            this.рекурсивныйСпускToolStripMenuItem.Name = "рекурсивныйСпускToolStripMenuItem";
+            this.рекурсивныйСпускToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.рекурсивныйСпускToolStripMenuItem.Text = "Рекурсивный спуск";
+            this.рекурсивныйСпускToolStripMenuItem.Click += new System.EventHandler(this.рекурсивныйСпускToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(878, 396);
-            this.Controls.Add(this.anal_Button);
             this.Controls.Add(this.PasteButton);
             this.Controls.Add(this.CutButton);
             this.Controls.Add(this.CopyButton);
@@ -503,7 +499,7 @@
         private System.Windows.Forms.Button CutButton;
         private System.Windows.Forms.ToolStripMenuItem очиститьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem лексическийАнализаторToolStripMenuItem;
-        private System.Windows.Forms.Button anal_Button;
+        private System.Windows.Forms.ToolStripMenuItem рекурсивныйСпускToolStripMenuItem;
     }
 }
 
