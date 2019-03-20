@@ -59,6 +59,8 @@
     <Compile Include="Lexer_Form.Designer.cs">
       <DependentUpon>Lexer_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="RecursiveDescent\ArithmeticExpressionParser.cs" />
+    <Compile Include="RecursiveDescent\ArithmeticExpressionParseResult.cs" />
     <Compile Include="StateMachineStringSearch\EmailSearchStateMaсhine.cs" />
     <Compile Include="StateMachineStringSearch\EmailSearchStateMaсhineWithUSM.cs" />
     <Compile Include="Form1.cs">
@@ -119,7 +121,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RecursiveDescent\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TeorForm_lab1.Lexer;
+using TeorForm_lab1.RecursiveDescent;
 
 namespace TeorForm_lab1
 {
