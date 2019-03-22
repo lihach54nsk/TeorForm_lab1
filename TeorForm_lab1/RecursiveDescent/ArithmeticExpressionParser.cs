@@ -134,7 +134,14 @@ namespace TeorForm_lab1.RecursiveDescent
                     _source.AdvanceChar();
                     ParseNumber();
                     break;
+                case '(':
+                    SaveChar();
+                    _states.AddLast("(");
+                    _source.AdvanceChar();
+                    ParseBracket();
+                    break;
                 default:
+                    _states.AddLast("Ошибка!");
                     return;
             }
         }
@@ -216,6 +223,17 @@ namespace TeorForm_lab1.RecursiveDescent
                     default:
                         return;
                 }
+            }
+        }
+
+        void ParseBracket()
+        {
+            ParseE();
+            if(_source.PeekChar() == ')')
+            {
+                _states.AddLast(")");
+                SaveChar();
+                _source.AdvanceChar();
             }
         }
 
