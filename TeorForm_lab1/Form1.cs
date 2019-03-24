@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using TeorForm_lab1.RecursiveDescent;
 
 namespace TeorForm_lab1
 {
@@ -150,12 +149,6 @@ namespace TeorForm_lab1
 
         private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e) => Help.ShowHelp(this, "help.chm");
 
-        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EMailForm eMailForm = new EMailForm();
-            eMailForm.Show();
-        }
-
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e) => Open();
 
         private void OpenButton_Click(object sender, EventArgs e) => открытьToolStripMenuItem_Click(sender, e);
@@ -205,27 +198,6 @@ namespace TeorForm_lab1
             }
 
             return sb.ToString();
-        }
-
-        private void рекурсивныйСпускToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxOut.Text = RecoursiveDescent(richTextBoxIn.Text);
-        }
-
-        private string RecoursiveDescent(string input)
-        {
-            var result = ArithmeticExpressionParser.Parse(input);
-            var builder = new StringBuilder();
-
-            builder.AppendLine($"Прочитанная строка: {result.ResultString};")
-                .Append("Перечень состояний:");
-
-            foreach (var item in result.States)
-            {
-                builder.Append(" ➜ ").Append(item);
-            }
-
-            return builder.ToString();
         }
     }
 }

@@ -288,7 +288,6 @@
             this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
             this.emailToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.emailToolStripMenuItem.Text = "E-mail";
-            this.emailToolStripMenuItem.Click += new System.EventHandler(this.emailToolStripMenuItem_Click);
             // 
             // лексическийАнализаторToolStripMenuItem
             // 
@@ -430,7 +429,6 @@
             this.рекурсивныйСпускToolStripMenuItem.Name = "рекурсивныйСпускToolStripMenuItem";
             this.рекурсивныйСпускToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.рекурсивныйСпускToolStripMenuItem.Text = "Рекурсивный спуск";
-            this.рекурсивныйСпускToolStripMenuItem.Click += new System.EventHandler(this.рекурсивныйСпускToolStripMenuItem_Click);
             // 
             // Form1
             // 
