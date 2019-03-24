@@ -14,7 +14,7 @@ namespace TeorForm_lab1
         TextData data;
         StringBuilder resultString;
 
-        bool Parser(TextData textData, out List<Errors> errorsCollection, out string result)
+        public bool Parser(TextData textData, out List<Errors> errorsCollection, out string result)
         {
             mode = Mode.Decimal;
             errors = new List<Errors>();
@@ -297,7 +297,7 @@ namespace TeorForm_lab1
                     case ' ':
                     case '\t':
                     case '\n':
-                        //Here we ignore whitespace
+                        //SKIP
                         data.AdvanceChar();
                         break;
                     case '0':
@@ -344,40 +344,40 @@ namespace TeorForm_lab1
         {
             errors.Add(new Errors(text, character, position, error));
         }
+    }
 
-        class Errors
+    class Errors
+    {
+        public string Text { get; }
+        public char Character { get; }
+        public int Position { get; }
+        public ErrorType errorType { get; }
+
+        public Errors(string text, char character, int position, ErrorType error)
         {
-            public string Text;
-            public char Character;
-            public int Position;
-            public ErrorType errorType;
-
-            public Errors(string text, char character, int position, ErrorType error)
-            {
-                Text = text;
-                Character = character;
-                Position = position;
-                errorType = error;
-            }
-
-            public string AddError() => $"{errorType}: Character: '{Character}' at position {Position}; {Text};";
+            Text = text;
+            Character = character;
+            Position = position;
+            errorType = error;
         }
 
-        enum Mode : byte // состояния КА
-        {
-            Decimal,
-            UnsignedDecimal,
-            UnsignedDecimalWithDot,
-            DecimalWithExponent,
-            UnsignedDecimalWithExponent,
-            // UnsignedDecimalWithExponentDigit,
-            End,
-        }
+        public string AddError() => $"{errorType}: Character: '{Character}' at position {Position}; {Text};";
+    }
 
-        enum ErrorType : byte // варианты ошибок
-        {
-            Error,
-            Warning,
-        }
+    enum Mode : byte // состояния КА
+    {
+        Decimal,
+        UnsignedDecimal,
+        UnsignedDecimalWithDot,
+        DecimalWithExponent,
+        UnsignedDecimalWithExponent,
+        // UnsignedDecimalWithExponentDigit,
+        End,
+    }
+
+    enum ErrorType : byte // варианты ошибок
+    {
+        Error,
+        Warning,
     }
 }
