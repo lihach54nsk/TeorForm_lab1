@@ -196,5 +196,7 @@ namespace TeorForm_lab1
 
             return sb.ToString();
         }
+
+
     }
 }

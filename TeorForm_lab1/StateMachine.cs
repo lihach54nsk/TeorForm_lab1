@@ -14,7 +14,7 @@ namespace TeorForm_lab1
         TextData data;
         StringBuilder resultString;
 
-        public bool Parser(TextData textData)
+        bool Parser(TextData textData, out List<Errors> errorsCollection, out string result)
         {
             mode = Mode.Decimal;
             errors = new List<Errors>();
@@ -25,71 +25,352 @@ namespace TeorForm_lab1
             {
                 switch (mode)
                 {
-                    case Mode.Decimal:
+                    case Mode.Decimal: // старт - знак или цифра 1
                         ParseDecimal();
                         break;
-                    case Mode.UnsignedDecimal:
+                    case Mode.UnsignedDecimal: // цифры и экспонента, точка 2
                         ParseUnsignedDecimal();
                         break;
-                    case Mode.DecimalWithExponent:
+                    case Mode.DecimalWithExponent: // нашли экспоненту 4
                         ParseDecimalWithExponent();
                         break;
-                    case Mode.UnsignedDecimalWithExponent:
+                   /* case Mode.UnsignedDecimalWithExponentDigit: // обязательна одна цифра после Е 5
+                        ParseUnsignedDecimalWithExponentDigit();
+                        break;*/
+                    case Mode.UnsignedDecimalWithExponent: // считывание дальнейшего значения экспоненты и типа после неё 6
                         ParseUnsignedDecimalWithExponent();
                         break;
-                    case Mode.DecimalWithExponentAndType:
-                        ParseDecimalWithExponentAndType();
+                    case Mode.UnsignedDecimalWithDot: // после точки не может быть второй точки 3
+                        ParseUnsignedDecimalWithDot();
                         break;
-                    case Mode.UnsignedDecimalWithExponentAndType:
-                        ParseUnsignedDecimalWithExponentAndType();
-                        break;
-                    default:
-                        throw new NotImplementedException();
                 }
             }
         }
 
-        private void ParseUnsignedDecimalWithExponentAndType()
+        private void ParseUnsignedDecimalWithDot()
         {
-            throw new NotImplementedException();
-        }
-
-        private void ParseDecimalWithExponentAndType()
-        {
-            throw new NotImplementedException();
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        break;
+                    case 'E':
+                    case 'e':
+                        mode = Mode.DecimalWithExponent; // нашли экспоненту
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case 'F': // нашли тип 
+                    case 'f':
+                    case 'L':
+                    case 'l':
+                        mode = Mode.End;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    default:
+                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or type character or E/e",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                }
+            }
         }
 
         private void ParseUnsignedDecimalWithExponent()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        mode = Mode.UnsignedDecimalWithExponent;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        break;
+                    case 'F': // нашли тип 
+                    case 'f':
+                    case 'L':
+                    case 'l':
+                        mode = Mode.End;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case '\0':
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        mode = Mode.End;
+                        return;
+                    default:
+                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or type character",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                        data.AdvanceChar();
+                        return;
+                }
+            }
         }
 
-        private void ParseDecimalWithExponent()
+       /* private void ParseUnsignedDecimalWithExponentDigit()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        mode = Mode.UnsignedDecimalWithExponent;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        break;
+                    case 'F':
+                    case 'f':
+                    case 'L':
+                    case 'l':
+                        mode = Mode.End;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case '\0':
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        mode = Mode.End;
+                        return;
+                    default:
+                        MakeWarning("Unknown character! There can only be digit from 0 to 9",
+                    data.PeekChar(),
+                    data.Position,
+                    ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                }
+            }
+        }*/
+
+        void ParseDecimalWithExponent()
+        {
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case '0': // обязательна одна цифра после Е/е
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        mode = Mode.UnsignedDecimalWithExponent;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case '-':
+                    case '+':
+                        mode = Mode.UnsignedDecimalWithExponent;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    default:
+                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or '.' character",
+                    data.PeekChar(),
+                    data.Position,
+                    ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                }
+            }
         }
 
-        private void ParseUnsignedDecimal()
+        void ParseUnsignedDecimal()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        break;
+                    case '.': // нашли точку, и она должна быть только одна
+                        mode = Mode.UnsignedDecimalWithDot;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case ',':
+                        mode = Mode.UnsignedDecimalWithDot;
+                        resultString.Append('.');
+                        MakeWarning("There can only be digit from 0 to 9 or '.' character",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Warning);
+                        data.AdvanceChar();
+                        return;
+                    case 'E':
+                    case 'e':
+                        mode = Mode.DecimalWithExponent; // нашли экспоненту
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case 'F': // нашли тип 
+                    case 'f':
+                    case 'L':
+                    case 'l':
+                        mode = Mode.End;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case '\0':
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        mode = Mode.End;
+                        return;
+                    default:
+                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or '.' character",
+                    data.PeekChar(),
+                    data.Position,
+                    ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                }
+            }
         }
 
-        private void ParseDecimal()
+        void ParseDecimal() // проверка первого символа
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        //Here we ignore whitespace
+                        data.AdvanceChar();
+                        break;
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        mode = Mode.UnsignedDecimal;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case '+':
+                    case '-':
+                        mode = Mode.UnsignedDecimal;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case '\0':
+                        MakeWarning(
+                            "Value cannot be empty",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                        mode = Mode.End;
+                        return;
+                    default:
+                        MakeWarning(
+                            "Unknown character! There can only be digit or sign.",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                }
+            }
+        }
+
+        void MakeWarning(string text, char character, int position, ErrorType error)
+        {
+            errors.Add(new Errors(text, character, position, error));
+        }
+
+        class Errors
+        {
+            public string Text;
+            public char Character;
+            public int Position;
+            public ErrorType errorType;
+
+            public Errors(string text, char character, int position, ErrorType error)
+            {
+                Text = text;
+                Character = character;
+                Position = position;
+                errorType = error;
+            }
+
+            public string AddError() => $"{errorType}: Character: '{Character}' at position {Position}; {Text};";
         }
 
         enum Mode : byte // состояния КА
         {
             Decimal,
             UnsignedDecimal,
+            UnsignedDecimalWithDot,
             DecimalWithExponent,
             UnsignedDecimalWithExponent,
+           // UnsignedDecimalWithExponentDigit,
             DecimalWithExponentAndType,
             UnsignedDecimalWithExponentAndType,
+            End,
         }
 
-        enum Errors : byte // варианты ошибок
+        enum ErrorType : byte // варианты ошибок
         {
             Error,
             Warning,
