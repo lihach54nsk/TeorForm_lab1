@@ -157,7 +157,19 @@ namespace TeorForm_lab1
 
         private void emailStateMachineToolStripMenuItem_Click(object sender, EventArgs e) { } // muda
 
-        private void лексическийАнализаторToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxOut.Text = LexerAnalisys(richTextBoxIn.Text);
+        private void лексическийАнализаторToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StateMachine stateMachine = new StateMachine();
+            bool res = stateMachine.Parser(new Lexer.TextData(richTextBoxIn.Text), out var errors, out var resultString);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine($"Suc: {res} - Result of Parse: {resultString};\n");
+
+            foreach (var a in errors)
+                stringBuilder.AppendLine($"Character {a.Character.ToString()} - {a.errorType.ToString()} at position {a.Position}. {a.Text}").AppendLine();
+
+            richTextBoxOut.Text = stringBuilder.ToString();
+        }
 
         private string LexerAnalisys(string input)
         {
@@ -196,7 +208,5 @@ namespace TeorForm_lab1
 
             return sb.ToString();
         }
-
-
     }
 }
