@@ -54,7 +54,6 @@
             this.списокЛитературыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.исходныйКодПрограммыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пускToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.лексическийАнализаторToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вызовСправкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +68,6 @@
             this.CopyButton = new System.Windows.Forms.Button();
             this.PasteButton = new System.Windows.Forms.Button();
             this.CutButton = new System.Windows.Forms.Button();
-            this.рекурсивныйСпускToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -275,19 +273,11 @@
             // пускToolStripMenuItem
             // 
             this.пускToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.emailToolStripMenuItem,
-            this.лексическийАнализаторToolStripMenuItem,
-            this.рекурсивныйСпускToolStripMenuItem});
+            this.лексическийАнализаторToolStripMenuItem});
             this.пускToolStripMenuItem.Name = "пускToolStripMenuItem";
             this.пускToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.пускToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.пускToolStripMenuItem.Text = "Пуск";
-            // 
-            // emailToolStripMenuItem
-            // 
-            this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
-            this.emailToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.emailToolStripMenuItem.Text = "E-mail";
             // 
             // лексическийАнализаторToolStripMenuItem
             // 
@@ -424,12 +414,6 @@
             this.CutButton.UseVisualStyleBackColor = true;
             this.CutButton.Click += new System.EventHandler(this.CutButton_Click);
             // 
-            // рекурсивныйСпускToolStripMenuItem
-            // 
-            this.рекурсивныйСпускToolStripMenuItem.Name = "рекурсивныйСпускToolStripMenuItem";
-            this.рекурсивныйСпускToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.рекурсивныйСпускToolStripMenuItem.Text = "Рекурсивный спуск";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,7 +470,6 @@
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.RichTextBox richTextBoxIn;
         private System.Windows.Forms.RichTextBox richTextBoxOut;
-        private System.Windows.Forms.ToolStripMenuItem emailToolStripMenuItem;
         private System.Windows.Forms.Button CreateButton;
         private System.Windows.Forms.Button OpenButton;
         private System.Windows.Forms.Button SaveButton;
@@ -497,7 +480,6 @@
         private System.Windows.Forms.Button CutButton;
         private System.Windows.Forms.ToolStripMenuItem очиститьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem лексическийАнализаторToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem рекурсивныйСпускToolStripMenuItem;
     }
 }
 
