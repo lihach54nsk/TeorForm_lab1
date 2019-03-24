@@ -157,10 +157,7 @@ namespace TeorForm_lab1
 
         private void emailStateMachineToolStripMenuItem_Click(object sender, EventArgs e) { } // muda
 
-        private void лексическийАнализаторToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBoxOut.Text = LexerAnalisys(richTextBoxIn.Text);
-        }
+        private void лексическийАнализаторToolStripMenuItem_Click(object sender, EventArgs e) => richTextBoxOut.Text = LexerAnalisys(richTextBoxIn.Text);
 
         private string LexerAnalisys(string input)
         {
@@ -176,7 +173,7 @@ namespace TeorForm_lab1
                         break;
                     case Lexer.SyntaxValueToken<int> inti:
                         sb.AppendLine($"Значение: {inti.Value}; Тип: {inti.SyntaxKind}; Позиция: {inti.SourceTextPosition};");
-                        break; 
+                        break;
                     case Lexer.SyntaxValueToken<char> charType:
                         sb.AppendLine($"Значение: {charType.Value}; Тип: {charType.SyntaxKind}; Позиция: {charType.SourceTextPosition};");
                         break;
