@@ -429,6 +429,7 @@ namespace TeorForm_lab1.Lexer
 
             var length = currentOffset - startOffset;
             tokenInfo.Text = chars.Substring(startOffset, length);
+            tokenInfo.position = startOffset;
 
             if (TryGetKeyword(tokenInfo.Text, out var kind))
             {
@@ -479,7 +480,7 @@ namespace TeorForm_lab1.Lexer
 
                 var length = currentOffset - startOffset - 1;
 
-                if (length <= 0)
+                if (length < 0)
                 {
                     throw new FormatException();
                 }
