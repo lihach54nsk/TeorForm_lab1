@@ -40,7 +40,7 @@ namespace TeorForm_lab1.RecursiveDescent
         {
             _states.AddLast("A");
 
-            switch(_source.PeekChar())
+            switch (_source.PeekChar())
             {
                 case '+':
                 case '-':
@@ -229,7 +229,7 @@ namespace TeorForm_lab1.RecursiveDescent
         void ParseBracket()
         {
             ParseE();
-            if(_source.PeekChar() == ')')
+            if (_source.PeekChar() == ')')
             {
                 _states.AddLast(")");
                 SaveChar();
