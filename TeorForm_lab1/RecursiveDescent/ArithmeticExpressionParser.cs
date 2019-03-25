@@ -141,7 +141,7 @@ namespace TeorForm_lab1.RecursiveDescent
                     ParseBracket();
                     break;
                 default:
-                    _states.AddLast("Ошибка!");
+                    _states.AddLast("Ошибка! Некорректное O");
                     return;
             }
         }
@@ -234,6 +234,10 @@ namespace TeorForm_lab1.RecursiveDescent
                 _states.AddLast(")");
                 SaveChar();
                 _source.AdvanceChar();
+            }
+            else
+            {
+                _states.AddLast("Ошибка! Не найдена закрывающая скобка");
             }
         }
 
