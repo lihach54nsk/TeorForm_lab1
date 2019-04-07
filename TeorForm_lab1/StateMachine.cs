@@ -87,7 +87,7 @@ namespace TeorForm_lab1
                         data.AdvanceChar();
                         return;
                     default:
-                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or type character or E/e",
+                        MakeWarning("Unknown character! Expected digit from 0 to 9 or type character or E/e",
                             data.PeekChar(),
                             data.Position,
                             ErrorType.Error);
@@ -132,7 +132,7 @@ namespace TeorForm_lab1
                         mode = Mode.End;
                         return;
                     default:
-                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or type character",
+                        MakeWarning("Unknown character! Expected digit from 0 to 9 or type character",
                             data.PeekChar(),
                             data.Position,
                             ErrorType.Error);
@@ -193,7 +193,7 @@ namespace TeorForm_lab1
             {
                 switch (data.PeekChar())
                 {
-                    case '0': // обязательна одна цифра после Е/е
+                    case '0': // обязательна одна цифра после Е/е или знак
                     case '1':
                     case '2':
                     case '3':
@@ -218,9 +218,13 @@ namespace TeorForm_lab1
                     case '\t':
                     case '\n':
                         mode = Mode.End;
+                        MakeWarning("Unknown character! Expected digit from 0 to 9 or sign",
+                    data.PeekChar(),
+                    data.Position,
+                    ErrorType.Error);
                         return;
                     default:
-                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or '.' character",
+                        MakeWarning("Unknown character! Expected digit from 0 to 9 or sign",
                     data.PeekChar(),
                     data.Position,
                     ErrorType.Error);
@@ -284,7 +288,7 @@ namespace TeorForm_lab1
                         mode = Mode.End;
                         return;
                     default:
-                        MakeWarning("Unknown character! There can only be digit from 0 to 9 or '.' character",
+                        MakeWarning("Unknown character! Expected digit from 0 to 9 or '.' character or type character or E/e symbol",
                     data.PeekChar(),
                     data.Position,
                     ErrorType.Error);
@@ -336,7 +340,7 @@ namespace TeorForm_lab1
                         return;
                     default:
                         MakeWarning(
-                            "Unknown character! There can only be digit or sign.",
+                            "Unknown character! Expected digit or sign.",
                             data.PeekChar(),
                             data.Position,
                             ErrorType.Error);
