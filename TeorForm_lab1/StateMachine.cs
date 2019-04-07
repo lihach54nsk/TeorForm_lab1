@@ -34,9 +34,9 @@ namespace TeorForm_lab1
                     case Mode.DecimalWithExponent: // нашли экспоненту 4
                         ParseDecimalWithExponent();
                         break;
-                    /* case Mode.UnsignedDecimalWithExponentDigit: // обязательна одна цифра после Е 5
+                    case Mode.UnsignedDecimalWithExponentDigit: // обязательна одна цифра после Е 5
                          ParseUnsignedDecimalWithExponentDigit();
-                         break;*/
+                         break;
                     case Mode.UnsignedDecimalWithExponent: // считывание дальнейшего значения экспоненты и типа после неё 6
                         ParseUnsignedDecimalWithExponent();
                         break;
@@ -142,50 +142,60 @@ namespace TeorForm_lab1
             }
         }
 
-        /* private void ParseUnsignedDecimalWithExponentDigit()
-         {
-             while (true)
-             {
-                 switch (data.PeekChar())
-                 {
-                     case '0':
-                     case '1':
-                     case '2':
-                     case '3':
-                     case '4':
-                     case '5':
-                     case '6':
-                     case '7':
-                     case '8':
-                     case '9':
-                         mode = Mode.UnsignedDecimalWithExponent;
-                         resultString.Append(data.PeekChar());
-                         data.AdvanceChar();
-                         break;
-                     case 'F':
-                     case 'f':
-                     case 'L':
-                     case 'l':
-                         mode = Mode.End;
-                         resultString.Append(data.PeekChar());
-                         data.AdvanceChar();
-                         return;
-                     case '\0':
-                     case ' ':
-                     case '\t':
-                     case '\n':
-                         mode = Mode.End;
-                         return;
-                     default:
-                         MakeWarning("Unknown character! There can only be digit from 0 to 9",
-                     data.PeekChar(),
-                     data.Position,
-                     ErrorType.Error);
-                         data.AdvanceChar();
-                         break;
-                 }
-             }
-         }*/
+        private void ParseUnsignedDecimalWithExponentDigit()
+        {
+            while (true)
+            {
+                switch (data.PeekChar())
+                {
+                    case '0': // обязательна одна цифра после Е/е
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        mode = Mode.UnsignedDecimalWithExponent;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case 'F':
+                    case 'f':
+                    case 'L':
+                    case 'l':
+                        // mode = Mode.End;
+                        // resultString.Append(data.PeekChar());
+                        // data.AdvanceChar();
+                        // return;
+                        MakeWarning("Unknown character! Expected digit from 0 to 9",
+                         data.PeekChar(),
+                         data.Position,
+                         ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                    case '\0':
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        mode = Mode.End;
+                        MakeWarning("Unknown character! Expected digit from 0 to 9",
+                        data.PeekChar(),
+                        data.Position,
+                        ErrorType.Error);
+                        return;
+                    default:
+                        MakeWarning("Unknown character! Expected digit from 0 to 9",
+                    data.PeekChar(),
+                    data.Position,
+                    ErrorType.Error);
+                        data.AdvanceChar();
+                        break;
+                }
+            }
+        }
 
         void ParseDecimalWithExponent()
         {
@@ -209,7 +219,7 @@ namespace TeorForm_lab1
                         return;
                     case '-':
                     case '+':
-                        mode = Mode.UnsignedDecimalWithExponent;
+                        mode = Mode.UnsignedDecimalWithExponentDigit;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
@@ -381,7 +391,7 @@ namespace TeorForm_lab1
         UnsignedDecimalWithDot,
         DecimalWithExponent,
         UnsignedDecimalWithExponent,
-        // UnsignedDecimalWithExponentDigit,
+        UnsignedDecimalWithExponentDigit,
         End,
     }
 
