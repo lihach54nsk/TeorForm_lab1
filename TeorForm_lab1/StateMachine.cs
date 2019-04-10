@@ -272,11 +272,29 @@ namespace TeorForm_lab1
                         count++;
                         break;
                     case '.': // нашли точку, и она должна быть только одна
+                        if (count == 0)
+                        {
+                            MakeWarning("Unknown character! Expected digit from 0 to 9 or '.' character or type character or E/e symbol",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                            data.AdvanceChar();
+                            break;
+                        }
                         mode = Mode.UnsignedDecimalWithDot;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
                     case ',':
+                        if (count == 0)
+                        {
+                            MakeWarning("Unknown character! Expected digit from 0 to 9 or '.' character or type character or E/e symbol",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                            data.AdvanceChar();
+                            break;
+                        }
                         mode = Mode.UnsignedDecimalWithDot;
                         resultString.Append('.');
                         MakeWarning("There can only be digit from 0 to 9 or '.' character",
