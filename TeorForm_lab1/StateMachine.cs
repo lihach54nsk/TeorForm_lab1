@@ -36,8 +36,8 @@ namespace TeorForm_lab1
                         ParseDecimalWithExponent();
                         break;
                     case Mode.UnsignedDecimalWithExponentDigit: // обязательна одна цифра после Е 5
-                         ParseUnsignedDecimalWithExponentDigit();
-                         break;
+                        ParseUnsignedDecimalWithExponentDigit();
+                        break;
                     case Mode.UnsignedDecimalWithExponent: // считывание дальнейшего значения экспоненты и типа после неё 6
                         ParseUnsignedDecimalWithExponent();
                         break;
@@ -149,7 +149,7 @@ namespace TeorForm_lab1
             }
         }
 
-        private void ParseUnsignedDecimalWithExponentDigit()
+        void ParseUnsignedDecimalWithExponentDigit()
         {
             while (true)
             {
