@@ -86,6 +86,12 @@ namespace TeorForm_lab1
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
+                    case '\0':
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        mode = Mode.End;
+                        return;
                     default:
                         MakeWarning("Unknown character! Expected digit from 0 to 9 or type character or E/e",
                             data.PeekChar(),
