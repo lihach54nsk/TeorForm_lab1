@@ -252,6 +252,7 @@ namespace TeorForm_lab1
 
         void ParseUnsignedDecimal()
         {
+            int count = 0;
             while (true)
             {
                 switch (data.PeekChar())
@@ -268,6 +269,7 @@ namespace TeorForm_lab1
                     case '9':
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
+                        count++;
                         break;
                     case '.': // нашли точку, и она должна быть только одна
                         mode = Mode.UnsignedDecimalWithDot;
@@ -293,6 +295,15 @@ namespace TeorForm_lab1
                     case 'f':
                     case 'L':
                     case 'l':
+                        if (count == 0)
+                        {
+                            MakeWarning("Unknown character! Expected digit from 0 to 9 or '.' character or type character or E/e symbol",
+                            data.PeekChar(),
+                            data.Position,
+                            ErrorType.Error);
+                            data.AdvanceChar();
+                            break;
+                        }
                         mode = Mode.End;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
