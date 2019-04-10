@@ -13,6 +13,7 @@ namespace TeorForm_lab1
         List<Errors> errors;
         TextData data;
         StringBuilder resultString;
+        int count = 0;
 
         public bool Parser(TextData textData, out List<Errors> errorsCollection, out string result)
         {
@@ -252,7 +253,7 @@ namespace TeorForm_lab1
 
         void ParseUnsignedDecimal()
         {
-            int count = 0;
+            int digit = 0;
             while (true)
             {
                 switch (data.PeekChar())
@@ -313,7 +314,7 @@ namespace TeorForm_lab1
                     case 'f':
                     case 'L':
                     case 'l':
-                        if (count == 0)
+                        if (digit == 0)
                         {
                             MakeWarning("Unknown character! Expected digit from 0 to 9 or '.' character or type character or E/e symbol",
                             data.PeekChar(),
@@ -368,6 +369,7 @@ namespace TeorForm_lab1
                         mode = Mode.UnsignedDecimal;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
+                        count++;
                         return;
                     case '+':
                     case '-':
