@@ -10,6 +10,7 @@ namespace TeorForm_lab1.RecursiveDescent
     //Здесь будем буквально следовать грамматике
     class ArithmeticExpressionParser
     {
+        private int count;
         private readonly StringBuilder _resultString;
         private readonly LinkedList<Warning> _states;
         private readonly TextData _source;
@@ -30,75 +31,382 @@ namespace TeorForm_lab1.RecursiveDescent
 
         void ParseMassive()
         {
+            count = 0;
             string str = "DIMENSION";
-            _states.AddLast("Массив");
 
             ParseType();
-            for (int i = 0; i < str.Length; i++) 
+
+            SkipSpace();
+            SaveChar(' ');
+
+            for (int i = 0; i < str.Length; i++)
             {
-                if (_source.PeekChar(i) == str[i])
-                    continue;
+                if (_source.PeekChar() == str[i] || _source.PeekChar() == str[i] + 32)
+                {
+                    SaveChar();
+                    _source.AdvanceChar();
+                }
                 else
-                    _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source.PeekChar(i), i + _source.Position, WarningType.Error));
-                
+                {
+                    _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source.PeekChar(), _source.Position, WarningType.Error));
+                }
             }
+
             ParseMassiv4ik();
         }
 
-        void ParseA()
+        void SkipSpace()
         {
-            _states.AddLast("A");
-
-            switch (_source.PeekChar())
+            while (true)
             {
-                case '+':
-                case '-':
-                    _states.AddLast(_source.PeekChar().ToString());
-                    SaveChar();
-                    _source.AdvanceChar();
-                    ParseT();
-                    ParseA();
-                    break;
-                default:
-                    _states.AddLast("e");
-                    return;
+                switch (_source.PeekChar())
+                {
+                    case ' ':
+                    case '\n':
+                    case '\r':
+                    case '\0':
+                        _source.AdvanceChar();
+                        break;
+                    default:
+                        return;
+                }
             }
         }
 
-        void ParseT()
+        void ParseType()
         {
-            _states.AddLast("T");
+            string Istr = "integer";
+            string Rstr = "real";
 
-            ParseO();
-            ParseB();
-        }
-
-        void ParseB()
-        {
-            _states.AddLast("B");
+            SkipSpace();
 
             switch (_source.PeekChar())
             {
-                case '*':
-                case '/':
-                    _states.AddLast(_source.PeekChar().ToString());
-                    SaveChar();
-                    _source.AdvanceChar();
-                    ParseO();
-                    ParseB();
+                case 'I':
+                case 'i':
+                    for (int t = 0; t < Istr.Length; t++)
+                    {
+                        if (_source.PeekChar() == Istr[t] || _source.PeekChar() == Istr[t] - 32)
+                        {
+                            SaveChar();
+                            _source.AdvanceChar();
+                        }
+                        else
+                        {
+                            _states.AddFirst(new Warning("Ожидался тип integer", _source.PeekChar(), _source.Position, WarningType.Error));
+                            _source.AdvanceChar();
+                        }                           
+                    }
+                    break;
+
+                case 'R':
+                case 'r':
+                    for (int i = 0; i < Rstr.Length; i++)
+                    {
+                        if (_source.PeekChar() == Rstr[i] || _source.PeekChar() == Rstr[i] - 32)
+                        {
+                            SaveChar();
+                            _source.AdvanceChar();
+                        }
+                        else
+                        {
+
+                            _states.AddFirst(new Warning("Ожидался тип real", _source.PeekChar(), _source.Position, WarningType.Error));
+                            _source.AdvanceChar();
+                        }
+                    }
                     break;
                 default:
-                    _states.AddLast("e");
-                    return;
+                    _states.AddFirst(new Warning("Ожидался тип integer или real", _source.PeekChar(), _source.Position, WarningType.Error));
+                    _source.AdvanceChar();
+                    break;
             }
         }
 
-        void ParseO()
+        void ParseMassiv4ik()
         {
-            _states.AddLast("О");
+            SkipSpace();
+            SaveChar(' ');
 
+            ParseName();
+
+            if (_source.PeekChar() == '(')
+            {
+                SaveChar();
+                _source.AdvanceChar();
+                ParseBracket();
+            }
+            else
+            {
+                _states.AddFirst(new Warning("Не найдена открывающая скобка", _source.PeekChar(), _source.Position, WarningType.Error));
+                _source.AdvanceChar();
+            }
+
+        }
+
+        void ParseBracketClose()
+        {
+            if (_source.PeekChar() == ')')
+            {
+                SaveChar();
+                _source.AdvanceChar();
+            }
+            else
+            {
+                _states.AddFirst(new Warning("Не найдена закрывающая скобка", _source.PeekChar(), _source.Position, WarningType.Error));
+                _source.AdvanceChar();
+            }
+        }
+
+        void ParseBracket()
+        {
+            ParseIndex();
+
+            while (true)
+            {
+                if (_source.PeekChar() == ',')
+                {
+                    SaveChar();
+                    _source.AdvanceChar();
+                    ParseMassiv4ik();
+                    break;
+                }
+                else
+                {
+                    _source.AdvanceChar();
+                }
+                if (_source.PeekChar() == '\0')
+                {
+                    _states.AddFirst(new Warning("Непредвиденный конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                    return;
+                }
+            }
+        }
+
+        void ParseIndex()
+        {
+            ParseInterval();
+        }
+
+        void ParseInterval()
+        {
+            ParseNWS();
+        }
+
+        void ParseNWS()
+        {
+            SkipSpace();
+            if (_source.PeekChar() == '+' || _source.PeekChar() == '-')
+            {
+                SaveChar();
+                _source.AdvanceChar();
+                while (true)
+                {
+                    switch (_source.PeekChar())
+                    {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            SaveChar();
+                            _source.AdvanceChar();
+                            break;
+                        case ':':
+                            SaveChar();
+                            _source.AdvanceChar();
+                            SkipSpace();
+                            ParseNWS_Addition();
+                            return;
+                        case '\0':
+                            return;
+                        default:
+                            _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
+                            _source.AdvanceChar();
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                while (true)
+                {
+                    switch (_source.PeekChar())
+                    {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            SaveChar();
+                            _source.AdvanceChar();
+                            break;
+                        case ':':
+                            SaveChar();
+                            _source.AdvanceChar();
+                            ParseNWS_Addition();
+                            return;
+                        case '\0':
+                            return;
+                        default:
+                            _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
+                            _source.AdvanceChar();
+                            break;
+                    }
+                }
+            }
+        }
+
+        void ParseNWS_Addition()
+        {
+            SkipSpace();
+            if (_source.PeekChar() == '+' || _source.PeekChar() == '-')
+            {
+                SaveChar();
+                _source.AdvanceChar();
+                while (true)
+                {
+                    switch (_source.PeekChar())
+                    {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            SaveChar();
+                            _source.AdvanceChar();
+                            break;
+                        case ',':
+                            if (count < 2)
+                            {
+                                SaveChar();
+                                _source.AdvanceChar();
+                                count++;
+                                SaveChar(' ');
+                                ParseIndex();
+                                return;
+                            }
+                            else
+                            {
+                                SaveChar(')');
+                                _states.AddFirst(new Warning("Количество измерений больше 3-х", _source.PeekChar(), _source.Position, WarningType.Error));
+                                _source.AdvanceChar();
+                                return;
+                            }                           
+                        case ')':
+                            ParseBracketClose();
+                            return;
+                        default:
+                            _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
+                            _source.AdvanceChar();
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                while (true)
+                {
+                    switch (_source.PeekChar())
+                    {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            SaveChar();
+                            _source.AdvanceChar();
+                            break;
+                        case ',':
+                            if (count < 2)
+                            {
+                                SaveChar();
+                                _source.AdvanceChar();
+                                count++;
+                                SaveChar(' ');
+                                ParseIndex();
+                                return;
+                            }
+                            else
+                            {
+                                SaveChar(')');
+                                _states.AddFirst(new Warning("Количество измерений больше 3-х", _source.PeekChar(), _source.Position, WarningType.Error));
+                                _source.AdvanceChar();
+                                return;
+                            }
+                        case ')':
+                            ParseBracketClose();
+                            return;
+                        default:
+                            _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
+                            _source.AdvanceChar();
+                            break;
+                    }
+                }
+            }
+        }
+
+        void ParseName()
+        {
+            ParseFL();
+            ParseNameWFL();
+        }
+
+        void ParseNameWFL()
+        {
+            ParseSL();
+        }
+
+        void ParseFL()
+        {
             switch (_source.PeekChar())
             {
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'g':
+                case 'h':
+                case 'i':
+                case 'j':
+                case 'k':
+                case 'l':
+                case 'm':
+                case 'n':
+                case 'o':
+                case 'p':
+                case 'q':
+                case 'r':
+                case 's':
+                case 't':
+                case 'u':
+                case 'v':
+                case 'w':
+                case 'x':
+                case 'y':
+                case 'z':
                 case 'A':
                 case 'B':
                 case 'C':
@@ -127,38 +435,14 @@ namespace TeorForm_lab1.RecursiveDescent
                 case 'Z':
                     SaveChar();
                     _source.AdvanceChar();
-                    ParseIdentifier();
-                    break;
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    SaveChar();
-                    _source.AdvanceChar();
-                    ParseNumber();
-                    break;
-                case '(':
-                    SaveChar();
-                    _states.AddLast("(");
-                    _source.AdvanceChar();
-                    ParseBracket();
                     break;
                 default:
-                    _states.AddLast("Ошибка! Некорректное O");
                     return;
             }
         }
 
-        void ParseNumber()
+        void ParseSL()
         {
-            _states.AddLast("Number");
-
             while (true)
             {
                 switch (_source.PeekChar())
@@ -173,33 +457,32 @@ namespace TeorForm_lab1.RecursiveDescent
                     case '7':
                     case '8':
                     case '9':
-                        SaveChar();
-                        _source.AdvanceChar();
-                        break;
-                    default:
-                        return;
-                }
-            }
-        }
-
-        void ParseIdentifier()
-        {
-            _states.AddLast("Identifier");
-
-            while (true)
-            {
-                switch (_source.PeekChar())
-                {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
+                    case 'a':
+                    case 'b':
+                    case 'c':
+                    case 'd':
+                    case 'e':
+                    case 'f':
+                    case 'g':
+                    case 'h':
+                    case 'i':
+                    case 'j':
+                    case 'k':
+                    case 'l':
+                    case 'm':
+                    case 'n':
+                    case 'o':
+                    case 'p':
+                    case 'q':
+                    case 'r':
+                    case 's':
+                    case 't':
+                    case 'u':
+                    case 'v':
+                    case 'w':
+                    case 'x':
+                    case 'y':
+                    case 'z':
                     case 'A':
                     case 'B':
                     case 'C':
@@ -232,21 +515,6 @@ namespace TeorForm_lab1.RecursiveDescent
                     default:
                         return;
                 }
-            }
-        }
-
-        void ParseBracket()
-        {
-            ParseE();
-            if (_source.PeekChar() == ')')
-            {
-                _states.AddLast(")");
-                SaveChar();
-                _source.AdvanceChar();
-            }
-            else
-            {
-                _states.AddLast("Ошибка! Не найдена закрывающая скобка");
             }
         }
 

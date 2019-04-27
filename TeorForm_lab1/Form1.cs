@@ -169,10 +169,16 @@ namespace TeorForm_lab1
             richTextBoxOut.Text = LexerAnalisys(richTextBoxIn.Text);
         }
 
-        private string Parse(string input)
+        void Parse(string input)
         {
-            string result = new Parser().Parse(richTextBoxIn.Text);
-            return "";
+            var result = ArithmeticExpressionParser.Parse(richTextBoxIn.Text).ResultString;
+            var sb = new StringBuilder();
+
+            foreach (var a in result)
+            {
+                sb.AppendLine(a.ToString());
+                richTextBoxOut.Text = sb.ToString();
+            }
         }
 
         private string LexerAnalisys(string input)

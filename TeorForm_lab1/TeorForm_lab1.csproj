@@ -59,7 +59,6 @@
     <Compile Include="Lexer_Form.Designer.cs">
       <DependentUpon>Lexer_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Parser.cs" />
     <Compile Include="RecursiveDescent\ArithmeticExpressionParser.cs" />
     <Compile Include="RecursiveDescent\ArithmeticExpressionParseResult.cs" />
     <Compile Include="StateMachineStringSearch\EmailSearchStateMaсhine.cs" />

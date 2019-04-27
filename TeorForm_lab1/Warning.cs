@@ -33,4 +33,3 @@ namespace TeorForm_lab1
         Warning,
     }
 }
-}
