@@ -49,12 +49,14 @@ namespace TeorForm_lab1.RecursiveDescent
                 else
                 {
                     _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source.PeekChar(), _source.Position, WarningType.Error));
+                    _source.AdvanceChar();
+                    i--;
                 }
             }
 
             ParseMassiv4ik();
         }
-
+        
         void SkipSpace()
         {
             while (true)

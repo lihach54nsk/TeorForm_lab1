@@ -229,7 +229,7 @@ namespace TeorForm_lab1
             var result = ArithmeticExpressionParser.Parse(input);
             var builder = new StringBuilder();
 
-            builder.AppendLine($"Прочитанная строка: {result.ResultString};")
+            builder.AppendLine($"Прочитанная строка: {result.ResultString}")
                 .Append("Перечень состояний:");
 
             foreach (var item in result.States)
