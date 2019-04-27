@@ -156,6 +156,11 @@ namespace TeorForm_lab1.RecursiveDescent
                 _states.AddFirst(new Warning("Не найдена закрывающая скобка", _source.PeekChar(), _source.Position, WarningType.Error));
                 _source.AdvanceChar();
             }
+            if (_source.PeekChar() == '\0')
+            {
+                _states.AddFirst(new Warning("Непредвиденный конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                return;
+            }
         }
 
         void ParseBracket()
@@ -164,22 +169,23 @@ namespace TeorForm_lab1.RecursiveDescent
 
             while (true)
             {
+                if (_source.PeekChar() == '\0')
+                {
+                    return;
+                }
+
                 if (_source.PeekChar() == ',')
                 {
                     SaveChar();
                     _source.AdvanceChar();
                     ParseMassiv4ik();
-                    break;
+                    return;
                 }
                 else
                 {
                     _source.AdvanceChar();
                 }
-                if (_source.PeekChar() == '\0')
-                {
-                    _states.AddFirst(new Warning("Непредвиденный конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
-                    return;
-                }
+
             }
         }
 
@@ -519,6 +525,11 @@ namespace TeorForm_lab1.RecursiveDescent
         }
 
         void SaveChar(char value)
+        {
+            _resultString.Append(value);
+        }
+
+        void SaveChar(string value)
         {
             _resultString.Append(value);
         }
