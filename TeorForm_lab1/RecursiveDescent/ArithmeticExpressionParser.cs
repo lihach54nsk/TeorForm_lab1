@@ -11,29 +11,38 @@ namespace TeorForm_lab1.RecursiveDescent
     class ArithmeticExpressionParser
     {
         private readonly StringBuilder _resultString;
-        private readonly LinkedList<string> _states;
+        private readonly LinkedList<Warning> _states;
         private readonly TextData _source;
 
         ArithmeticExpressionParser(TextData source)
         {
             _resultString = new StringBuilder();
-            _states = new LinkedList<string>();
+            _states = new LinkedList<Warning>();
             _source = source;
         }
 
         public static ArithmeticExpressionParseResult Parse(string source)
         {
             var parser = new ArithmeticExpressionParser(new TextData(source));
-            parser.ParseE();
+            parser.ParseMassive();
             return new ArithmeticExpressionParseResult(parser._resultString.ToString(), parser._states);
         }
 
-        void ParseE()
+        void ParseMassive()
         {
-            _states.AddLast("E");
+            string str = "DIMENSION";
+            _states.AddLast("Массив");
 
-            ParseT();
-            ParseA();
+            ParseType();
+            for (int i = 0; i < str.Length; i++) 
+            {
+                if (_source.PeekChar(i) == str[i])
+                    continue;
+                else
+                    _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source.PeekChar(i), i + _source.Position, WarningType.Error));
+                
+            }
+            ParseMassiv4ik();
         }
 
         void ParseA()

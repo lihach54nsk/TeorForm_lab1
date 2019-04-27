@@ -169,6 +169,12 @@ namespace TeorForm_lab1
             richTextBoxOut.Text = LexerAnalisys(richTextBoxIn.Text);
         }
 
+        private string Parse(string input)
+        {
+            string result = new Parser().Parse(richTextBoxIn.Text);
+            return "";
+        }
+
         private string LexerAnalisys(string input)
         {
             var result = Lexer.Lexer.GetTokens(new Lexer.TextData(input));

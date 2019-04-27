@@ -59,6 +59,7 @@
     <Compile Include="Lexer_Form.Designer.cs">
       <DependentUpon>Lexer_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Parser.cs" />
     <Compile Include="RecursiveDescent\ArithmeticExpressionParser.cs" />
     <Compile Include="RecursiveDescent\ArithmeticExpressionParseResult.cs" />
     <Compile Include="StateMachineStringSearch\EmailSearchStateMaсhine.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="UniversalStateMachine\StateMachineNode.cs" />
     <Compile Include="UniversalStateMachine\StateMachineTransaction.cs" />
     <Compile Include="UniversalStateMachine\UniversalStateMachine.cs" />
+    <Compile Include="Warning.cs" />
     <EmbeddedResource Include="EMailForm.resx">
       <DependentUpon>EMailForm.cs</DependentUpon>
     </EmbeddedResource>
