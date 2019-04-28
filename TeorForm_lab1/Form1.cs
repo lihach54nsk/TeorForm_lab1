@@ -232,11 +232,10 @@ namespace TeorForm_lab1
             builder.AppendLine($"Прочитанная строка: {result.ResultString}")
                 .Append("Перечень состояний:");
 
-            foreach (var item in result.States)
+            for (int i = result.States.Count - 1; i >= 0; i--) 
             {
-                builder.Append(" ➜ ").Append(item);
+                builder.Append(" ➜ ").Append(result.States.ElementAt(i));
             }
-
             return builder.ToString();
         }
     }

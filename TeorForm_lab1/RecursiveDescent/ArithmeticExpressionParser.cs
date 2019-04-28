@@ -11,6 +11,7 @@ namespace TeorForm_lab1.RecursiveDescent
     class ArithmeticExpressionParser
     {
         private int count;
+        private bool emptyflag;
         private readonly StringBuilder _resultString;
         private readonly LinkedList<Warning> _states;
         private readonly TextData _source;
@@ -31,6 +32,11 @@ namespace TeorForm_lab1.RecursiveDescent
 
         void ParseMassive()
         {
+            if (_source.PeekChar() == '\0')
+            {
+                _states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                return;
+            }
             count = 0;
             string str = "DIMENSION";
 
@@ -48,6 +54,11 @@ namespace TeorForm_lab1.RecursiveDescent
                 }
                 else
                 {
+                    if (_source.PeekChar() == '\0')
+                    {
+                        _states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                        return;
+                    }
                     _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source.PeekChar(), _source.Position, WarningType.Error));
                     _source.AdvanceChar();
                     i--;
@@ -66,7 +77,7 @@ namespace TeorForm_lab1.RecursiveDescent
                     case ' ':
                     case '\n':
                     case '\r':
-                    case '\0':
+                    //case '\0':
                         _source.AdvanceChar();
                         break;
                     default:
@@ -82,46 +93,62 @@ namespace TeorForm_lab1.RecursiveDescent
 
             SkipSpace();
 
-            switch (_source.PeekChar())
+            while (true)
             {
-                case 'I':
-                case 'i':
-                    for (int t = 0; t < Istr.Length; t++)
-                    {
-                        if (_source.PeekChar() == Istr[t] || _source.PeekChar() == Istr[t] - 32)
+                switch (_source.PeekChar())
+                {
+                    case 'I':
+                    case 'i':
+                        for (int t = 0; t < Istr.Length; t++)
                         {
-                            SaveChar();
-                            _source.AdvanceChar();
+                            if (_source.PeekChar() == Istr[t] || _source.PeekChar() == Istr[t] - 32)
+                            {
+                                SaveChar();
+                                _source.AdvanceChar();
+                            }
+                            else
+                            {
+                                if (_source.PeekChar() == '\0')
+                                {
+                                    _states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                                    return;
+                                }
+                                _states.AddFirst(new Warning("Ожидался тип integer", _source.PeekChar(), _source.Position, WarningType.Error));
+                                _source.AdvanceChar();
+                                t--;
+                            }
                         }
-                        else
-                        {
-                            _states.AddFirst(new Warning("Ожидался тип integer", _source.PeekChar(), _source.Position, WarningType.Error));
-                            _source.AdvanceChar();
-                        }                           
-                    }
-                    break;
+                        return;
 
-                case 'R':
-                case 'r':
-                    for (int i = 0; i < Rstr.Length; i++)
-                    {
-                        if (_source.PeekChar() == Rstr[i] || _source.PeekChar() == Rstr[i] - 32)
+                    case 'R':
+                    case 'r':
+                        for (int i = 0; i < Rstr.Length; i++)
                         {
-                            SaveChar();
-                            _source.AdvanceChar();
+                            if (_source.PeekChar() == Rstr[i] || _source.PeekChar() == Rstr[i] - 32)
+                            {
+                                SaveChar();
+                                _source.AdvanceChar();
+                            }
+                            else
+                            {
+                                if (_source.PeekChar() == '\0')
+                                {
+                                    _states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                                    return;
+                                }
+                                _states.AddFirst(new Warning("Ожидался тип real", _source.PeekChar(), _source.Position, WarningType.Error));
+                                _source.AdvanceChar();
+                                i--;
+                            }
                         }
-                        else
-                        {
-
-                            _states.AddFirst(new Warning("Ожидался тип real", _source.PeekChar(), _source.Position, WarningType.Error));
-                            _source.AdvanceChar();
-                        }
-                    }
-                    break;
-                default:
-                    _states.AddFirst(new Warning("Ожидался тип integer или real", _source.PeekChar(), _source.Position, WarningType.Error));
-                    _source.AdvanceChar();
-                    break;
+                        return;
+                    case '\0':
+                        return;
+                    default:
+                        _states.AddFirst(new Warning("Ожидался тип integer или real", _source.PeekChar(), _source.Position, WarningType.Error));
+                        _source.AdvanceChar();
+                        break;
+                }
             }
         }
 
@@ -160,7 +187,7 @@ namespace TeorForm_lab1.RecursiveDescent
             }
             if (_source.PeekChar() == '\0')
             {
-                _states.AddFirst(new Warning("Непредвиденный конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                 return;
             }
         }
@@ -231,7 +258,12 @@ namespace TeorForm_lab1.RecursiveDescent
                             SkipSpace();
                             ParseNWS_Addition();
                             return;
+                        case ',':
+                        case ')':
+                            ParseNWS_Addition();
+                            return;
                         case '\0':
+                            //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                             return;
                         default:
                             _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
@@ -264,7 +296,12 @@ namespace TeorForm_lab1.RecursiveDescent
                             _source.AdvanceChar();
                             ParseNWS_Addition();
                             return;
+                        case ',':
+                        case ')':
+                            ParseNWS_Addition();
+                            return;
                         case '\0':
+                            //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                             return;
                         default:
                             _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
@@ -376,8 +413,13 @@ namespace TeorForm_lab1.RecursiveDescent
 
         void ParseName()
         {
+            emptyflag = false;
             ParseFL();
-            ParseNameWFL();
+            if (emptyflag == false)
+            {
+                ParseNameWFL();
+            }
+            
         }
 
         void ParseNameWFL()
@@ -444,7 +486,12 @@ namespace TeorForm_lab1.RecursiveDescent
                     SaveChar();
                     _source.AdvanceChar();
                     break;
+                case '\0':
+                    //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                    return;
                 default:
+                    emptyflag = true;
+                    _states.AddFirst(new Warning("Ожидалось имя массива", _source.PeekChar(), _source.Position, WarningType.Error));
                     return;
             }
         }
@@ -520,6 +567,9 @@ namespace TeorForm_lab1.RecursiveDescent
                         SaveChar();
                         _source.AdvanceChar();
                         break;
+                    case '\0':
+                        //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
+                        return;
                     default:
                         return;
                 }
