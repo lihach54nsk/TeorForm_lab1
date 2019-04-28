@@ -150,12 +150,6 @@ namespace TeorForm_lab1
 
         private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e) => Help.ShowHelp(this, "help.chm");
 
-        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EMailForm eMailForm = new EMailForm();
-            eMailForm.Show();
-        }
-
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e) => Open();
 
         private void OpenButton_Click(object sender, EventArgs e) => открытьToolStripMenuItem_Click(sender, e);
