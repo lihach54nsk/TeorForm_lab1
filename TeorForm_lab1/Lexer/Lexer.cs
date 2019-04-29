@@ -276,13 +276,10 @@ namespace TeorForm_lab1.Lexer
             {
                 case SyntaxKind.None:
                     throw new NotImplementedException();
-                    break;
                 case SyntaxKind.StringKeyword:
                     throw new NotImplementedException();
-                    break;
                 case SyntaxKind.IntKeyword:
                     throw new NotImplementedException();
-                    break;
                 case SyntaxKind.IdentifierToken:
                     return new SyntaxIdentifierToken(SyntaxKind.IdentifierToken, tokenInfo.Text, tokenInfo.position);
                 case SyntaxKind.StringLiteralToken:

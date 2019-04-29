@@ -232,5 +232,12 @@ namespace TeorForm_lab1
             }
             return builder.ToString();
         }
+
+        private void постановкаЗадачиToolStripMenuItem_Click(object sender, EventArgs e) => Help.ShowHelp(this, "TT.chm");
+        private void ГрамматикаToolStripMenuItem_Click(object sender, EventArgs e) => Help.ShowHelp(this, "Gram.chm");
+        private void классификацияГрамматикиToolStripMenuItem_Click(object sender, EventArgs e) => Help.ShowHelp(this, "Klass.chm");
+        private void методАнализаToolStripMenuItem_Click_1(object sender, EventArgs e) => Help.ShowHelp(this, "Metod.chm");
+        private void тестовыйПримерToolStripMenuItem_Click_1(object sender, EventArgs e) => Help.ShowHelp(this, "Test.chm");
+        private void списокЛитературыToolStripMenuItem_Click_1(object sender, EventArgs e) => Help.ShowHelp(this, "Litra.chm");
     }
 }
