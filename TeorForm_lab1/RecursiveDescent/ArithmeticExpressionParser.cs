@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using TeorForm_lab1.Lexer;
 
 namespace TeorForm_lab1.RecursiveDescent
 {
-    //Здесь будем буквально следовать грамматике
     class ArithmeticExpressionParser
     {
         private int count;
@@ -77,7 +73,6 @@ namespace TeorForm_lab1.RecursiveDescent
                     case ' ':
                     case '\n':
                     case '\r':
-                    //case '\0':
                         _source.AdvanceChar();
                         break;
                     default:
@@ -187,7 +182,6 @@ namespace TeorForm_lab1.RecursiveDescent
             }
             if (_source.PeekChar() == '\0')
             {
-                //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                 return;
             }
         }
@@ -263,7 +257,6 @@ namespace TeorForm_lab1.RecursiveDescent
                             ParseNWS_Addition();
                             return;
                         case '\0':
-                            //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                             return;
                         default:
                             _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
@@ -301,7 +294,6 @@ namespace TeorForm_lab1.RecursiveDescent
                             ParseNWS_Addition();
                             return;
                         case '\0':
-                            //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                             return;
                         default:
                             _states.AddFirst(new Warning("Ожидалось число", _source.PeekChar(), _source.Position, WarningType.Error));
@@ -418,8 +410,7 @@ namespace TeorForm_lab1.RecursiveDescent
             if (emptyflag == false)
             {
                 ParseNameWFL();
-            }
-            
+            }            
         }
 
         void ParseNameWFL()
@@ -487,7 +478,6 @@ namespace TeorForm_lab1.RecursiveDescent
                     _source.AdvanceChar();
                     break;
                 case '\0':
-                    //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                     return;
                 default:
                     emptyflag = true;
@@ -568,7 +558,6 @@ namespace TeorForm_lab1.RecursiveDescent
                         _source.AdvanceChar();
                         break;
                     case '\0':
-                        //_states.AddFirst(new Warning("Конец строки!", _source.PeekChar(), _source.Position, WarningType.Error));
                         return;
                     default:
                         return;
