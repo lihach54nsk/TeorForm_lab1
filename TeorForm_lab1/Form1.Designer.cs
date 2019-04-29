@@ -81,7 +81,7 @@
             this.справкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(878, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(907, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -282,7 +282,7 @@
             // рекурсивныйСпускToolStripMenuItem
             // 
             this.рекурсивныйСпускToolStripMenuItem.Name = "рекурсивныйСпускToolStripMenuItem";
-            this.рекурсивныйСпускToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.рекурсивныйСпускToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.рекурсивныйСпускToolStripMenuItem.Text = "Курсовая работа";
             this.рекурсивныйСпускToolStripMenuItem.Click += new System.EventHandler(this.рекурсивныйСпускToolStripMenuItem_Click);
             // 
@@ -316,14 +316,14 @@
             this.richTextBoxIn.Name = "richTextBoxIn";
             this.richTextBoxIn.Size = new System.Drawing.Size(854, 134);
             this.richTextBoxIn.TabIndex = 5;
-            this.richTextBoxIn.Text = "";
+            this.richTextBoxIn.Text = "Integer dimension a(8:5), c(8:4)";
             // 
             // richTextBoxOut
             // 
             this.richTextBoxOut.Location = new System.Drawing.Point(12, 217);
             this.richTextBoxOut.Name = "richTextBoxOut";
             this.richTextBoxOut.ReadOnly = true;
-            this.richTextBoxOut.Size = new System.Drawing.Size(854, 167);
+            this.richTextBoxOut.Size = new System.Drawing.Size(854, 365);
             this.richTextBoxOut.TabIndex = 6;
             this.richTextBoxOut.Text = "";
             // 
@@ -418,7 +418,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 396);
+            this.ClientSize = new System.Drawing.Size(907, 594);
             this.Controls.Add(this.PasteButton);
             this.Controls.Add(this.CutButton);
             this.Controls.Add(this.CopyButton);
