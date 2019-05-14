@@ -151,6 +151,18 @@ namespace TeorForm_lab1.Lexer
                         data.AdvanceChar();
                         break;
 
+                    case ',':
+                        tokenInfo.position = data.Position;
+                        tokenInfo.kind = SyntaxKind.CommaToken;
+                        data.AdvanceChar();
+                        break;
+
+                    case ':':
+                        tokenInfo.position = data.Position;
+                        tokenInfo.kind = SyntaxKind.ColonToken;
+                        data.AdvanceChar();
+                        break;
+
                     case '{':
                         tokenInfo.position = data.Position;
                         tokenInfo.kind = SyntaxKind.OpeningBrace;
@@ -327,6 +339,11 @@ namespace TeorForm_lab1.Lexer
                 case SyntaxKind.WhileKeyword:
                 case SyntaxKind.IfKeyword:
                 case SyntaxKind.SemicolonToken:
+                case SyntaxKind.IntegerKeyword:
+                case SyntaxKind.RealKeyword:
+                case SyntaxKind.DimensionKeyword:
+                case SyntaxKind.CommaToken:
+                case SyntaxKind.ColonToken:
                     return new SyntaxTriviaToken(tokenInfo.kind, tokenInfo.position);
                 case SyntaxKind.Unknown:
                     return new SyntaxUnknownToken(tokenInfo.position, tokenInfo.Text);
@@ -425,7 +442,7 @@ namespace TeorForm_lab1.Lexer
         EndOfLoop:
 
             var length = currentOffset - startOffset;
-            tokenInfo.Text = chars.Substring(startOffset, length);
+            tokenInfo.Text = chars.Substring(startOffset, length).ToLower();
             tokenInfo.position = startOffset;
 
             if (TryGetKeyword(tokenInfo.Text, out var kind))
@@ -452,6 +469,15 @@ namespace TeorForm_lab1.Lexer
                     return true;
                 case "while":
                     kind = SyntaxKind.WhileKeyword;
+                    return true;
+                case "integer":
+                    kind = SyntaxKind.IntegerKeyword;
+                    return true;
+                case "real":
+                    kind = SyntaxKind.RealKeyword;
+                    return true;
+                case "dimension":
+                    kind = SyntaxKind.DimensionKeyword;
                     return true;
                 default:
                     kind = SyntaxKind.None;
@@ -655,6 +681,8 @@ namespace TeorForm_lab1.Lexer
         DivToken,
         DivEqualToken,
         DotToken,
+        CommaToken,
+        ColonToken,
 
         //Brackets
         OpeningBracket,
@@ -666,6 +694,9 @@ namespace TeorForm_lab1.Lexer
         ForKeyword,
         WhileKeyword,
         IfKeyword,
+        IntegerKeyword,
+        RealKeyword,
+        DimensionKeyword,
     };
 
     enum SpecialType

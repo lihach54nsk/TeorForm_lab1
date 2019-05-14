@@ -2,7 +2,7 @@
 {
     class Warning
     {
-        public Warning(string text, char character, int position, WarningType warningType)
+        public Warning(string text, string character, int position, WarningType warningType)
         {
             Text = text;
             Position = position;
@@ -13,7 +13,7 @@
         public string Text { get; }
         public int Position { get; }
         public WarningType WarningType { get; }
-        public char Character { get; }
+        public string Character { get; }
 
         public override string ToString()
         {

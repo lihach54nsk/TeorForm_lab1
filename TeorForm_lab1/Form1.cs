@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using TeorForm_lab1.RecursiveDescent;
+using TeorForm_lab1.Lexer;
 
 namespace TeorForm_lab1
 {
@@ -165,10 +166,11 @@ namespace TeorForm_lab1
 
         void Parse(string input)
         {
-            var result = ArithmeticExpressionParser.Parse(richTextBoxIn.Text).ResultString;
+            var tokenaizer = Lexer.Lexer.GetTokens(new TextData(richTextBoxIn.Text));
+            var result = ArithmeticExpressionParser.Parse(tokenaizer);
             var sb = new StringBuilder();
 
-            foreach (var a in result)
+            foreach (var a in result.ResultString)
             {
                 sb.AppendLine(a.ToString());
                 richTextBoxOut.Text = sb.ToString();
@@ -220,7 +222,7 @@ namespace TeorForm_lab1
 
         private string RecoursiveDescent(string input)
         {
-            var result = ArithmeticExpressionParser.Parse(input);
+            var result = ArithmeticExpressionParser.Parse(Lexer.Lexer.GetTokens(new TextData(input)));
             var builder = new StringBuilder();
 
             builder.AppendLine($"Прочитанная строка: {result.ResultString}")
