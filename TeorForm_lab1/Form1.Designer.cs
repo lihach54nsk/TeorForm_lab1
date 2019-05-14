@@ -306,7 +306,7 @@
             this.richTextBoxIn.Name = "richTextBoxIn";
             this.richTextBoxIn.Size = new System.Drawing.Size(854, 134);
             this.richTextBoxIn.TabIndex = 5;
-            this.richTextBoxIn.Text = "Integer dimension a(8:5), c(8:4)";
+            this.richTextBoxIn.Text = "Integer dimension a(-8:5), c(-18:4)";
             // 
             // richTextBoxOut
             // 

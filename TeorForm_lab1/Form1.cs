@@ -224,7 +224,7 @@ namespace TeorForm_lab1
             var builder = new StringBuilder();
 
             builder.AppendLine($"Прочитанная строка: {result.ResultString}")
-                .Append("Перечень состояний:");
+                .Append("Перечень состояний:\n");
 
             for (int i = result.States.Count - 1; i >= 0; i--) 
             {
