@@ -230,7 +230,7 @@ namespace TeorForm_lab1
 
             for (int i = result.States.Count - 1; i >= 0; i--) 
             {
-                builder.Append(" ➜ ").Append(result.States.ElementAt(i));
+                builder.AppendLine(result.States.ElementAt(i).ToString());
             }
             return builder.ToString();
         }

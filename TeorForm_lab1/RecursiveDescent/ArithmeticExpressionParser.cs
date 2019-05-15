@@ -9,13 +9,13 @@ namespace TeorForm_lab1.RecursiveDescent
         private int count;
         private int indexPos;
         private readonly StringBuilder _resultString;
-        private readonly LinkedList<Warning> _states;
+        private readonly LinkedList<IWarning> _states;
         private readonly List<ISyntaxToken> _source;
 
         ArithmeticExpressionParser(List<ISyntaxToken> source)
         {
             _resultString = new StringBuilder();
-            _states = new LinkedList<Warning>();
+            _states = new LinkedList<IWarning>();
             _source = source;
             indexPos = 0;
             count = 0;
@@ -28,17 +28,34 @@ namespace TeorForm_lab1.RecursiveDescent
             return new ArithmeticExpressionParseResult(parser._resultString.ToString(), parser._states);
         }
 
-        void ParseMassive()
+        void Unknown()
         {
             if (_source.Count == indexPos)
             {
-                _states.AddFirst(new Warning("Конец строки!", "Backslash zero!", indexPos, WarningType.Error));
+                _states.AddFirst(new UnkWarning("Ожидались латинские символы", "Конец строки!", WarningType.Error));
                 return;
             }
 
+            while (_source[indexPos].SyntaxKind == SyntaxKind.Unknown)
+            {
+                _states.AddFirst(new Warning("Неизвестный токен", _source[indexPos].SyntaxKind.ToString(), _source[indexPos].SourceTextPosition, WarningType.Error));
+                indexPos++;
+                break;
+            }
+        }
+
+        void ParseMassive()
+        {
             ParseType();
 
             SaveChar(' ');
+
+            if (_source.Count == indexPos)
+            {
+                SaveChar("DIMENSION <ИМЯ>(<ИНТЕРВАЛ>)");
+                _states.AddFirst(new UnkWarning("Ожидалось выражение", "Конец строки!", WarningType.Error));
+                return;
+            }
 
             if (_source[indexPos] is SyntaxTriviaToken token && token.SyntaxKind == SyntaxKind.DimensionKeyword)
             {
@@ -48,7 +65,7 @@ namespace TeorForm_lab1.RecursiveDescent
             else
             {
                 SaveChar("DIMENSION");
-                _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
+                _states.AddFirst(new Warning("Ожидалось выражение DIMENSION", _source[indexPos].SyntaxKind.ToString(), _source[indexPos].SourceTextPosition, WarningType.Error));
             }
 
             ParseMassiv4ik();
@@ -56,6 +73,13 @@ namespace TeorForm_lab1.RecursiveDescent
 
         void ParseType()
         {
+            if (_source.Count == indexPos)
+            {
+                SaveChar("<ТИП>");
+                _states.AddFirst(new UnkWarning("Ожидалось выражение", "Конец строки!", WarningType.Error));
+                return;
+            }
+
             switch (_source[indexPos])
             {
                 case SyntaxTriviaToken tokenI:
@@ -80,22 +104,43 @@ namespace TeorForm_lab1.RecursiveDescent
 
         void ParseMassiv4ik()
         {
+            Unknown();
+
             SaveChar(' ');
 
             ParseName();
 
-            if (_source[indexPos] is SyntaxTriviaToken token && token.SyntaxKind == SyntaxKind.OpeningBracket)
+            Unknown();
+
+            while (true)
             {
-                indexPos++;
-                SaveChar("(");
-                ParseBracket();
-            }
-            else
-            {
-                indexPos++;
-                SaveChar("(");
-                _states.AddFirst(new Warning("Не найдена открывающая скобка", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
-            }      
+                if (_source.Count == indexPos)
+                {
+                    SaveChar("(<ИНТЕРВАЛ>)");
+                    _states.AddFirst(new UnkWarning("Ожидалась открывающая скобка", "Конец строки!", WarningType.Error));
+                    return;
+                }
+
+                switch (_source[indexPos].SyntaxKind)
+                {
+                    case SyntaxKind.PlusToken:
+                    case SyntaxKind.MinusToken:
+                    case SyntaxKind.IntLiteralToken:
+                        SaveChar('(');
+                        _states.AddFirst(new Warning("Не найдена открывающая скобка", _source[indexPos].SyntaxKind.ToString(), _source[indexPos].SourceTextPosition, WarningType.Error));
+                        ParseBracket();
+                        return;
+                    case SyntaxKind.OpeningBracket:
+                        SaveChar('(');
+                        indexPos++;
+                        ParseBracket();
+                        return;
+                    default:
+                        _states.AddFirst(new Warning("Не найдена открывающая скобка", _source[indexPos].SyntaxKind.ToString(), _source[indexPos].SourceTextPosition, WarningType.Error));
+                        indexPos++;                       
+                        break;
+                }
+            }                    
         }
 
         void ParseBracket()
@@ -104,7 +149,6 @@ namespace TeorForm_lab1.RecursiveDescent
 
             if (_source.Count == indexPos)
             {
-                _states.AddFirst(new Warning("Конец строки!", "Backslash zero!", indexPos, WarningType.Error));
                 return;
             }
 
@@ -119,18 +163,19 @@ namespace TeorForm_lab1.RecursiveDescent
             }
         }
 
-        void ParseIndex()
-        {
-            ParseInterval();
-        }
+        void ParseIndex() => ParseInterval();
 
-        void ParseInterval()
-        {
-            ParseNWS();
-        }
+        void ParseInterval() => ParseNWS();
 
         void ParseNWS()
         {
+            if (_source.Count == indexPos)
+            {
+                SaveChar("<ЦСЗ>)");
+                _states.AddFirst(new UnkWarning("Ожидалось число со знаком", "Конец строки!", WarningType.Error));
+                return;
+            }
+
             if (_source[indexPos] is SyntaxTriviaToken token)
             {
                 switch (token.SyntaxKind)
@@ -143,35 +188,39 @@ namespace TeorForm_lab1.RecursiveDescent
                         indexPos++;
                         SaveChar("+");
                         break;
-                    default:
+                    case SyntaxKind.ClosingBracket:                        
+                        SaveChar("<ЦСЗ>)");
+                        _states.AddFirst(new Warning("Ожидалось число со знаком", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
                         indexPos++;
-                        _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
+                        return;
+                    default:
+                        _states.AddFirst(new UnkWarning("Ожидался знак или число", "Конец строки!", WarningType.Error));
+                        indexPos++;
                         break;
                 }
-                /*if (token.SyntaxKind == SyntaxKind.MinusToken)
-                {
-                    indexPos++;
-                    SaveChar("-");
-                }
-                else if (token.SyntaxKind == SyntaxKind.PlusToken)
-                {
-                    indexPos++;
-                    SaveChar("+");
-                }
-                else
-                {
-                    indexPos++;
-                    _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
-                }*/
+            }
+
+            if (_source.Count == indexPos)
+            {
+                SaveChar("<ЦБЗ>)");
+                _states.AddFirst(new UnkWarning("Ожидалось число", "Конец строки!", WarningType.Error));
+                return;
             }
 
             if (_source[indexPos] is SyntaxValueToken<int> tokenNWS)
             {
                 if (tokenNWS.SyntaxKind == SyntaxKind.IntLiteralToken)
                 {
-                    indexPos++;
                     SaveChar(tokenNWS.Value.ToString());
+                    indexPos++;
                 }
+            }
+
+            if (_source.Count == indexPos)
+            {
+                SaveChar(')');
+                _states.AddFirst(new UnkWarning("Ожидалась закрывающаяся скобка", "Конец строки!", WarningType.Error));
+                return;
             }
 
             if (_source[indexPos] is SyntaxTriviaToken tokenSign)
@@ -180,14 +229,14 @@ namespace TeorForm_lab1.RecursiveDescent
                 {
                     case SyntaxKind.ColonToken:
                         indexPos++;
-                        SaveChar(":");
+                        SaveChar(":");                       
                         ParseNWS();
                         break;
                     case SyntaxKind.CommaToken:
                         indexPos++;
                         count++;
                         SaveChar(",");
-                        while (count < 2)
+                        if (count < 2)
                         {
                             ParseIndex();
                         }
@@ -197,57 +246,36 @@ namespace TeorForm_lab1.RecursiveDescent
                         SaveChar(")");
                         return;
                     default:
-                        indexPos++;
                         _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
+                        indexPos++;
                         break;
                 }
-                /*if (tokenSign.SyntaxKind == SyntaxKind.ColonToken)
-                {
-                    indexPos++;
-                    SaveChar(":");
-                    ParseNWS();
-                }
-                else if (tokenSign.SyntaxKind == SyntaxKind.CommaToken)
-                {
-                    indexPos++;
-                    count++;
-                    SaveChar(",");
-                    while (count < 2)
-                    {
-                        ParseIndex();
-                    }                    
-                }
-                else if (tokenSign.SyntaxKind == SyntaxKind.ClosingBracket)
-                {
-                    indexPos++;
-                    SaveChar(")");
-                    return;
-                }
-                else
-                {
-                    indexPos++;
-                    _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
-                }*/
             }
         }
-        
+
         void ParseName()
         {
             while (true)
             {
+                if (_source.Count == indexPos)
+                {
+                    SaveChar("<ИМЯ>");
+                    _states.AddFirst(new UnkWarning("Ожидалось имя массива", "Конец строки!", WarningType.Error));
+                    return;
+                }
+
                 if (_source[indexPos] is SyntaxIdentifierToken token && token.SyntaxKind == SyntaxKind.IdentifierToken)
                 {
-                    indexPos++;
                     SaveChar(token.IdentifierName);
+                    indexPos++;
                     break;
                 }
                 else
                 {
+                    _states.AddFirst(new Warning("Ожидалось имя массива", _source[indexPos].SyntaxKind.ToString(), _source[indexPos].SourceTextPosition, WarningType.Error));
                     indexPos++;
-                    _states.AddFirst(new Warning("Ожидалось имя массива", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
                 }
             }
-           
         }
 
         void SaveChar(char value)
