@@ -133,7 +133,22 @@ namespace TeorForm_lab1.RecursiveDescent
         {
             if (_source[indexPos] is SyntaxTriviaToken token)
             {
-                if (token.SyntaxKind == SyntaxKind.MinusToken)
+                switch (token.SyntaxKind)
+                {
+                    case SyntaxKind.MinusToken:
+                        indexPos++;
+                        SaveChar("-");
+                        break;
+                    case SyntaxKind.PlusToken:
+                        indexPos++;
+                        SaveChar("+");
+                        break;
+                    default:
+                        indexPos++;
+                        _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
+                        break;
+                }
+                /*if (token.SyntaxKind == SyntaxKind.MinusToken)
                 {
                     indexPos++;
                     SaveChar("-");
@@ -147,7 +162,7 @@ namespace TeorForm_lab1.RecursiveDescent
                 {
                     indexPos++;
                     _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
-                }
+                }*/
             }
 
             if (_source[indexPos] is SyntaxValueToken<int> tokenNWS)
@@ -161,7 +176,32 @@ namespace TeorForm_lab1.RecursiveDescent
 
             if (_source[indexPos] is SyntaxTriviaToken tokenSign)
             {
-                if (tokenSign.SyntaxKind == SyntaxKind.ColonToken)
+                switch (tokenSign.SyntaxKind)
+                {
+                    case SyntaxKind.ColonToken:
+                        indexPos++;
+                        SaveChar(":");
+                        ParseNWS();
+                        break;
+                    case SyntaxKind.CommaToken:
+                        indexPos++;
+                        count++;
+                        SaveChar(",");
+                        while (count < 2)
+                        {
+                            ParseIndex();
+                        }
+                        break;
+                    case SyntaxKind.ClosingBracket:
+                        indexPos++;
+                        SaveChar(")");
+                        return;
+                    default:
+                        indexPos++;
+                        _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
+                        break;
+                }
+                /*if (tokenSign.SyntaxKind == SyntaxKind.ColonToken)
                 {
                     indexPos++;
                     SaveChar(":");
@@ -187,7 +227,7 @@ namespace TeorForm_lab1.RecursiveDescent
                 {
                     indexPos++;
                     _states.AddFirst(new Warning("Ожидался знак или число", _source[indexPos].SyntaxKind.ToString(), indexPos, WarningType.Error));
-                }
+                }*/
             }
         }
         
