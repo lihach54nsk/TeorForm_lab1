@@ -71,7 +71,6 @@ namespace TeorForm_lab1
                         return;
                     case '\0':
                         mode = StateMachineEnum.End;
-                        MakeWarning("Unknown character! Expected slash", data.PeekChar(), data.Position, ErrorType.Error);
                         return;
                     default:
                         MakeWarning("Unknown character! Expected slash", data.PeekChar(), data.Position, ErrorType.Error);

@@ -157,13 +157,13 @@ namespace CI_CPLUS_PLUS_TESTS
         }
 
         [Test]
-        public void WhenEmpty_ThenReturnFalse()
+        public void WhenEmpty_ThenReturnTrue()
         {
             var resultString = "";
             var errors = new List<Errors>();
             var result = stateMachine.Parser(new TextData(""), out errors, out resultString);
 
-            Assert.IsTrue(!result && (errors.Count == 1));
+            Assert.IsTrue(result);
         }
 
         [Test]
@@ -174,6 +174,16 @@ namespace CI_CPLUS_PLUS_TESTS
             var result = stateMachine.Parser(new TextData("/YA EST GRUT!"), out errors, out resultString);
 
             Assert.IsTrue(!result && (errors.Count == 13));
+        }  
+        
+        [Test]
+        public void WhenTwoSlashesAndSomeTextAndEnterAndTwoSymbols_ThenReturnFalseAndListWithTwoErrors()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("// This is the comment\n42"), out errors, out resultString);
+
+            Assert.IsTrue(!result && (errors.Count == 2));
         }
     }
 }
