@@ -7,7 +7,7 @@ using TeorForm_lab1.StateMachineModes;
 
 namespace TeorForm_lab1
 {
-    class StateMachine : IStateMachine
+    public class StateMachine : IStateMachine
     {
         StateMachineEnum mode;
         List<Errors> errors;
@@ -62,7 +62,6 @@ namespace TeorForm_lab1
                     case ' ':
                     case '\t':
                     case '\n':
-                        // SKIP
                         data.AdvanceChar();
                         break;
                     case '/':
@@ -161,7 +160,7 @@ namespace TeorForm_lab1
                 switch (data.PeekChar())
                 {
                     case '/':
-                        mode = StateMachineEnum.Start;
+                        mode = StateMachineEnum.LastSlash;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
@@ -183,6 +182,11 @@ namespace TeorForm_lab1
             {
                 switch (data.PeekChar())
                 {
+                    case ' ':
+                    case '\t':
+                    case '\n':
+                        data.AdvanceChar();
+                        break;
                     case '/':
                         mode = StateMachineEnum.FirstSlash;
                         resultString.Append(data.PeekChar());
