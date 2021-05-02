@@ -24,7 +24,7 @@ namespace CI_CPLUS_PLUS_TESTS
 
             Assert.IsTrue(result);
         }
-        
+
         [Test]
         public void WhenSlashAndStarAndSomeTextAndStarAndSlash_ThenReturnTrue()
         {
@@ -33,8 +33,8 @@ namespace CI_CPLUS_PLUS_TESTS
             var result = stateMachine.Parser(new TextData("/*YA EST GRUT!*/"), out errors, out resultString);
 
             Assert.IsTrue(result);
-        }   
-        
+        }
+
         [Test]
         public void WhenSlashAndStarAndSomeTextAndStar_ThenReturnTrue()
         {
@@ -43,19 +43,19 @@ namespace CI_CPLUS_PLUS_TESTS
             var result = stateMachine.Parser(new TextData("/*YA EST GRUT!*"), out errors, out resultString);
 
             Assert.IsTrue(result);
-        }  
-        
+        }
+
         [Test]
         public void WhenSlashAndStarAndSomeTextAndStarAndSlashAndTreeSpacesAndSomeText_ThenReturnFalseAndListOfErrors()
         {
             var resultString = "";
             var errors = new List<Errors>();
             var result = stateMachine.Parser(new TextData("/*YA EST GRUT!*/   \n//Ya est Steve Rojers"), out errors, out resultString);
-            
+
 
             Assert.IsTrue(result);
-        }   
-        
+        }
+
         [Test]
         public void WhenSpacesAndTwoSlashesAndSomeText_ThenReturnFalseAndListOfErrors()
         {
@@ -65,7 +65,7 @@ namespace CI_CPLUS_PLUS_TESTS
 
             Assert.IsTrue(!result && errors.Count == 17);
         }
-        
+
         [Test]
         public void WhenSpacesAndTwoSlashesAndSomeTextAndTwoSlashes_ThenReturnTrue()
         {
@@ -74,8 +74,8 @@ namespace CI_CPLUS_PLUS_TESTS
             var result = stateMachine.Parser(new TextData("//YA EST // GRUT"), out errors, out resultString);
 
             Assert.IsTrue(result);
-        }    
-        
+        }
+
         [Test]
         public void WhenSpacesAndTwoSlashesAndSomeTextAndEnterAndTwoSlashesAndSomeText_ThenReturnTrue()
         {
@@ -84,7 +84,7 @@ namespace CI_CPLUS_PLUS_TESTS
             var result = stateMachine.Parser(new TextData("   //YA EST \n// GRUT"), out errors, out resultString);
 
             Assert.IsTrue(result);
-        }        
+        }
 
         [Test]
         public void WhenSpacesAndTwoSlashesAndSomeTextAndEnterAndSlashAndStarAndSomeText_ThenReturnTrue()
@@ -145,7 +145,7 @@ namespace CI_CPLUS_PLUS_TESTS
 
             Assert.IsTrue(result);
         }
-        
+
         [Test]
         public void WhenSlashAndStar_ThenReturnTrue()
         {
@@ -173,9 +173,9 @@ namespace CI_CPLUS_PLUS_TESTS
             var errors = new List<Errors>();
             var result = stateMachine.Parser(new TextData("/YA EST GRUT!"), out errors, out resultString);
 
-            Assert.IsTrue(!result && (errors.Count == 13));
-        }  
-        
+            Assert.IsTrue(!result && (errors.Count == 10));
+        }
+
         [Test]
         public void WhenTwoSlashesAndSomeTextAndEnterAndTwoSymbols_ThenReturnFalseAndListWithTwoErrors()
         {
@@ -184,6 +184,86 @@ namespace CI_CPLUS_PLUS_TESTS
             var result = stateMachine.Parser(new TextData("// This is the comment\n42"), out errors, out resultString);
 
             Assert.IsTrue(!result && (errors.Count == 2));
+        }
+
+        [Test]
+        public void WhenTwoSlashesAndStarAndSomeTextAndEnterAndSomeTextAndStarAndSlash_ThenReturnFalseAndListWithTwoErrors()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("//* Ya est\nGRUT*/"), out errors, out resultString);
+
+            Assert.IsTrue(!result && (errors.Count == 6));
+        }
+
+        [Test]
+        public void WhenSlashAndSomeTextAndSlashAndSomeText_ThenReturnFalseAndListWithTwoErrors()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("/ Ya est /GRUT"), out errors, out resultString);
+
+            Assert.IsTrue(!result && (errors.Count == 10));
+        }
+
+        [Test]
+        public void WhenTwoSlashes_ThenReturnTrue()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("//"), out errors, out resultString);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void WhenSlashAndStarAndCommentWithStartsInsideAndStarAndSlash_ThenReturnTrue()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("/*Ya /*est*/ GRUT!*/"), out errors, out resultString);
+
+            Assert.IsTrue(!result && errors.Count == 7);
+        }
+
+        [Test]
+        public void WhenSlashAndStarAndTwoSlashesAndSomeTextAndStarAndSlash_ThenReturnTrue()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("/*Ya //est GRUT!*/"), out errors, out resultString);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void WhenSlashAndStarAndSomeTextAndTwoStarsAndSlash_ThenReturnTrue()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("/*Ya est GRUT!**/"), out errors, out resultString);
+            
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void WhenSlashAndStarAndSlash_ThenReturnTrue()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("/*/"), out errors, out resultString);
+            
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void WhenFourSlashesAndSomeText_ThenReturnTrue()
+        {
+            var resultString = "";
+            var errors = new List<Errors>();
+            var result = stateMachine.Parser(new TextData("//// Ya est GRUT!"), out errors, out resultString);
+            
+            Assert.IsTrue(result);
         }
     }
 }

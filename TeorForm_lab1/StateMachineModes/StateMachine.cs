@@ -101,9 +101,10 @@ namespace TeorForm_lab1
                         MakeWarning("Unknown character! Expected slash or star", data.PeekChar(), data.Position, ErrorType.Error);
                         return;
                     default:
+                        mode = StateMachineEnum.Start;
                         MakeWarning("Unknown character! Expected slash or star", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
-                        break;
+                        return;
                 }
             }
         }
