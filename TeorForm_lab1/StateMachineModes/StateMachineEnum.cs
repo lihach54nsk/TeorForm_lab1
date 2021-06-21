@@ -2,12 +2,11 @@
 {
     enum StateMachineEnum : byte
     {
-        Start, // 1
-        FirstSlash, // 2
-        SecondSlash, // 3
-        FirstStar, // 4
-        SecondStar, // 5
-        LastSlash, // 6
+        FirstSymbol, // 1
+        SecondSymbol, // 2
+        ThirdSymbol, // 3
+        FourthSymbol, // 4
+        SecondC, // 5
         End // K
     }
 }
