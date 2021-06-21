@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeorForm_lab1", "TeorForm_lab1\TeorForm_lab1.csproj", "{D75E0711-A528-4830-B4FB-054D752B70E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CI_CPLUS_PLUS_TESTS", "CI_CPLUS_PLUS_TESTS\CI_CPLUS_PLUS_TESTS.csproj", "{A1F727AE-55C8-46F0-B06A-5A71948AA6B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParserTests", "CI_CPLUS_PLUS_TESTS\ParserTests.csproj", "{A1F727AE-55C8-46F0-B06A-5A71948AA6B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

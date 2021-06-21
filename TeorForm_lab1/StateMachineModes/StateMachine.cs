@@ -16,7 +16,7 @@ namespace TeorForm_lab1
 
         public bool Parser(TextData textData, out List<Errors> errorsCollection, out string result)
         {
-            mode = StateMachineEnum.Start;
+            mode = StateMachineEnum.FirstSymbol;
             errors = new List<Errors>();
             data = textData;
             resultString = new StringBuilder();
@@ -25,23 +25,20 @@ namespace TeorForm_lab1
             {
                 switch (mode)
                 {
-                    case StateMachineEnum.Start:
-                        ParseStart();
+                    case StateMachineEnum.FirstSymbol:
+                        ParseFirstSymbol();
                         break;
-                    case StateMachineEnum.FirstSlash:
-                        ParseFirstSlash();
+                    case StateMachineEnum.SecondSymbol:
+                        ParseSecondSymbol();
                         break;
-                    case StateMachineEnum.SecondSlash:
-                        ParseSecondSlash();
+                    case StateMachineEnum.ThirdSymbol:
+                        ParseThirdSymbol();
                         break;
-                    case StateMachineEnum.FirstStar:
-                        ParseFirstStar();
+                    case StateMachineEnum.FourthSymbol:
+                        ParseFourthSymbol();
                         break;
-                    case StateMachineEnum.SecondStar:
-                        ParseSecondStar();
-                        break;
-                    case StateMachineEnum.LastSlash:
-                        ParseLastSlash();
+                    case StateMachineEnum.SecondC:
+                        ParseSecondC();
                         break;
                     case StateMachineEnum.End:
                         errorsCollection = errors;
@@ -53,7 +50,7 @@ namespace TeorForm_lab1
             }
         }
 
-        void ParseStart()
+        void ParseFirstSymbol()
         {
             while (true)
             {
@@ -64,8 +61,13 @@ namespace TeorForm_lab1
                     case '\n':
                         data.AdvanceChar();
                         break;
-                    case '/':
-                        mode = StateMachineEnum.FirstSlash;
+                    case 'a':
+                        mode = StateMachineEnum.SecondSymbol;
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        return;
+                    case 'c':
+                        mode = StateMachineEnum.SecondC;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
@@ -73,50 +75,26 @@ namespace TeorForm_lab1
                         mode = StateMachineEnum.End;
                         return;
                     default:
-                        MakeWarning("Unknown character! Expected slash", data.PeekChar(), data.Position, ErrorType.Error);
+                        MakeWarning("Unknown character! Expected a or c", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
                         break;
                 }
             }
         }
 
-        void ParseFirstSlash()
+        void ParseSecondSymbol()
         {
             while (true)
             {
                 switch (data.PeekChar())
                 {
-                    case '/':
-                        mode = StateMachineEnum.SecondSlash;
+                    case 'b':
+                        mode = StateMachineEnum.ThirdSymbol;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
-                    case '*':
-                        mode = StateMachineEnum.FirstStar;
-                        resultString.Append(data.PeekChar());
-                        data.AdvanceChar();
-                        return;
-                    case '\0':
-                        mode = StateMachineEnum.End;
-                        MakeWarning("Unknown character! Expected slash or star", data.PeekChar(), data.Position, ErrorType.Error);
-                        return;
-                    default:
-                        mode = StateMachineEnum.Start;
-                        MakeWarning("Unknown character! Expected slash or star", data.PeekChar(), data.Position, ErrorType.Error);
-                        data.AdvanceChar();
-                        return;
-                }
-            }
-        }
-
-        void ParseSecondSlash()
-        {
-            while (true)
-            {
-                switch (data.PeekChar())
-                {
-                    case '\n':
-                        mode = StateMachineEnum.Start;
+                    case 'c':
+                        mode = StateMachineEnum.SecondC;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
@@ -124,21 +102,21 @@ namespace TeorForm_lab1
                         mode = StateMachineEnum.End;
                         return;
                     default:
-                        resultString.Append(data.PeekChar());
+                        MakeWarning("Unknown character! Expected b or c", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
                         break;
                 }
             }
         }
 
-        void ParseFirstStar()
+        void ParseThirdSymbol()
         {
             while (true)
             {
                 switch (data.PeekChar())
                 {
-                    case '*':
-                        mode = StateMachineEnum.SecondStar;
+                    case 'c':
+                        mode = StateMachineEnum.FourthSymbol;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
@@ -146,49 +124,54 @@ namespace TeorForm_lab1
                         mode = StateMachineEnum.End;
                         return;
                     default:
-                        resultString.Append(data.PeekChar());
+                        MakeWarning("Unknown character! Expected c", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
                         break;
                 }
             }
         }
 
-        void ParseSecondStar()
+        void ParseFourthSymbol()
         {
             while (true)
             {
                 switch (data.PeekChar())
                 {
-                    case '/':
-                        mode = StateMachineEnum.LastSlash;
+                    case 'a':
+                        mode = StateMachineEnum.SecondSymbol;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
+                    case 'c':
+                        resultString.Append(data.PeekChar());
+                        data.AdvanceChar();
+                        break;
                     case '\0':
                         mode = StateMachineEnum.End;
                         return;
                     default:
-                        mode = StateMachineEnum.FirstStar;
-                        resultString.Append(data.PeekChar());
+                        MakeWarning("Unknown character! Expected a or c", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
-                        return;
+                        break;
                 }
             }
         }
 
-        void ParseLastSlash()
+        private void ParseSecondC()
         {
             while (true)
             {
                 switch (data.PeekChar())
                 {
-                    case ' ':
-                    case '\t':
-                    case '\n':
+                    case 'a':
+                        mode = StateMachineEnum.SecondSymbol;
+                        resultString.Remove(resultString.Length - 1, 1);
+                        resultString.Append(data.PeekChar());
+                        MakeWarning("Unknown character! Expected c", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
-                        break;
-                    case '/':
-                        mode = StateMachineEnum.FirstSlash;
+                        return;
+                    case 'c':
+                        mode = StateMachineEnum.FourthSymbol;
                         resultString.Append(data.PeekChar());
                         data.AdvanceChar();
                         return;
@@ -196,7 +179,7 @@ namespace TeorForm_lab1
                         mode = StateMachineEnum.End;
                         return;
                     default:
-                        MakeWarning("Unknown character! Expected slash", data.PeekChar(), data.Position, ErrorType.Error);
+                        MakeWarning("Unknown character! Expected c", data.PeekChar(), data.Position, ErrorType.Error);
                         data.AdvanceChar();
                         break;
                 }
